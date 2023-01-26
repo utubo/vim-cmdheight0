@@ -1,12 +1,12 @@
 vim9script
 
 def AtStart()
-  if ! exists('g:nocmdline.at_start') || g:nocmdline.at_start !=# 0
-    nocmdline#Init()
+  if ! exists('g:cmdheight0.at_start') || g:cmdheight0.at_start !=# 0
+    cmdheight0#Init()
   endif
 enddef
 
-augroup nocmdline_atstart
+augroup cmdheight0_atstart
   au!
   au VimEnter * AtStart()
 augroup END

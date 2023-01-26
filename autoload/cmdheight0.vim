@@ -9,14 +9,14 @@ def Silent(F: func)
   try
     F()
   catch
-    augroup nocmdline
+    augroup cmdheight0
       au!
     augroup END
-    g:nocmdline = get(g:, 'nocmdline', {})
-    g:nocmdline.lasterror = v:exception
-    g:nocmdline.initialized = 0
-    echoe 'vim-nocmdline was stopped for safety. ' ..
-      'You can `:call nocmdline#Init()` to restart. ' ..
+    g:cmdheight0 = get(g:, 'cmdheight0', {})
+    g:cmdheight0.lasterror = v:exception
+    g:cmdheight0.initialized = 0
+    echoe 'vim-cmdheight0 was stopped for safety. ' ..
+      'You can `:call cmdheight0#Init()` to restart. ' ..
       $'Exception:{v:exception}'
     throw v:exception
   endtry
@@ -68,8 +68,8 @@ enddef
 # --------------------
 
 export def Init()
-  const override = get(g:, 'nocmdline', {})
-  g:nocmdline = {
+  const override = get(g:, 'cmdheight0', {})
+  g:cmdheight0 = {
     format: '%t %m%r %=%|%3l:%-2c ',
     tail: '',
     tail_style: 'NONE',
@@ -98,20 +98,20 @@ export def Init()
     zen: 0,
     delay: &updatetime / 1000,
   }
-  g:nocmdline->extend(override)
-  w:nocmdline = { m: '' }
+  g:cmdheight0->extend(override)
+  w:cmdheight0 = { m: '' }
   set noruler
   set noshowcmd
   set laststatus=0
-  augroup nocmdline
+  augroup cmdheight0
     au!
     au ColorScheme * Silent(Invalidate)
-    au WinNew,WinClosed,TabLeave * g:nocmdline.winupdated = 1
+    au WinNew,WinClosed,TabLeave * g:cmdheight0.winupdated = 1
     au WinEnter * Silent(Update)|SaveWinSize() # for check scroll
     au WinLeave * Silent(ClearMode)|Silent(Invalidate)
     au WinScrolled * Silent(OnSizeChangedOrScrolled)
     au ModeChanged [^c]:* Silent(UpdateMode)|Silent(Invalidate)
-    au ModeChanged c:* timer_start(g:nocmdline.delay, 'nocmdline#Invalidate')
+    au ModeChanged c:* timer_start(g:cmdheight0.delay, 'cmdheight0#Invalidate')
     au TabEnter * Silent(Invalidate)
     au OptionSet fileencoding,readonly,modifiable Silent(Invalidate)
     au CursorMoved * Silent(CursorMoved)
@@ -122,32 +122,32 @@ export def Init()
   if maparg('N', 'n')->empty()
     nnoremap <script> <silent> N N
   endif
-  g:nocmdline.initialized = 1
+  g:cmdheight0.initialized = 1
   Update()
 enddef
 
 # Scroll event
 def SaveWinSize()
-  w:nocmdline_wsize = [winwidth(0), winheight(0)]
+  w:cmdheight0_wsize = [winwidth(0), winheight(0)]
 enddef
 
 def OnSizeChangedOrScrolled()
   const new_wsize = [winwidth(0), winheight(0)]
-  if w:nocmdline_wsize ==# new_wsize
+  if w:cmdheight0_wsize ==# new_wsize
     EchoStl()
     # prevent flickering
-    augroup nocmdline_invalidate
+    augroup cmdheight0_invalidate
       au!
       au SafeState * ++once EchoStl()
     augroup END
   else
-    w:nocmdline_wsize = new_wsize
+    w:cmdheight0_wsize = new_wsize
     Invalidate()
   endif
 enddef
 
 def CursorMoved()
-  if g:nocmdline.zen ==# 0
+  if g:cmdheight0.zen ==# 0
     EchoStl()
   endif
 enddef
@@ -158,22 +158,22 @@ enddef
 
 const colors = {
   #       Name                    Default color
-  '=':  ['NoCmdline',            'StatusLine'],
-  n:    ['NoCmdlineNormal',      'ToolBarButton'],
-  v:    ['NoCmdlineVisual',      'Visual'],
-  V:    ['NoCmdlineVisualLine',  'VisualNOS'],
-  '^V': ['NoCmdlineVisualBlock', 'link to NoCmdlineVisualLine'],
-  s:    ['NoCmdlineSelect',      'DiffChange'],
-  S:    ['NoCmdlineSelectLine',  'link to NoCmdlineSelect'],
-  '^S': ['NoCmdlineSelectBlock', 'link to NoCmdlineSelect'],
-  i:    ['NoCmdlineInsert',      'DiffAdd'],
-  R:    ['NoCmdlineReplace',     'DiffChange'],
-  c:    ['NoCmdlineCommand',     'WildMenu'],
-  r:    ['NoCmdlinePrompt',      'Search'],
-  t:    ['NoCmdlineTerm',        'StatusLineTerm'],
-  '!':  ['NoCmdlineShell',       'StatusLineTermNC'],
-  '_':  ['NoCmdlineModeNC',      'StatusLineNC'],
-  '*':  ['NoCmdlineOther',       'link to NoCmdlineModeNC'],
+  '=':  ['CmdHeight0',            'StatusLine'],
+  n:    ['CmdHeight0Normal',      'ToolBarButton'],
+  v:    ['CmdHeight0Visual',      'Visual'],
+  V:    ['CmdHeight0VisualLine',  'VisualNOS'],
+  '^V': ['CmdHeight0VisualBlock', 'link to CmdHeight0VisualLine'],
+  s:    ['CmdHeight0Select',      'DiffChange'],
+  S:    ['CmdHeight0SelectLine',  'link to CmdHeight0Select'],
+  '^S': ['CmdHeight0SelectBlock', 'link to CmdHeight0Select'],
+  i:    ['CmdHeight0Insert',      'DiffAdd'],
+  R:    ['CmdHeight0Replace',     'DiffChange'],
+  c:    ['CmdHeight0Command',     'WildMenu'],
+  r:    ['CmdHeight0Prompt',      'Search'],
+  t:    ['CmdHeight0Term',        'StatusLineTerm'],
+  '!':  ['CmdHeight0Shell',       'StatusLineTermNC'],
+  '_':  ['CmdHeight0ModeNC',      'StatusLineNC'],
+  '*':  ['CmdHeight0Other',       'link to CmdHeight0ModeNC'],
 }
 
 def GetFgBg(name: string): any
@@ -188,11 +188,11 @@ def GetFgBg(name: string): any
 enddef
 
 def SetupColor()
-  if g:nocmdline.zen ==# 1
-    silent! hi default link NoCmdlineHoriz VertSplit
+  if g:cmdheight0.zen ==# 1
+    silent! hi default link CmdHeight0Horiz VertSplit
     return
   endif
-  const colorscheme = get(g:nocmdline, 'colorscheme', get(g:, 'colors_name', ''))
+  const colorscheme = get(g:cmdheight0, 'colorscheme', get(g:, 'colors_name', ''))
   if !empty(colorscheme)
     const colorscheme_vim = $'{expand("<stack>:p:h")}/colors/{colorscheme}.vim'
     if filereadable(colorscheme_vim)
@@ -211,10 +211,10 @@ def SetupColor()
       endif
   endfor
   const nm = GetFgBg('Normal')
-  const st = GetFgBg('NoCmdline')
-  const nc = GetFgBg('NoCmdlineModeNC')
-  execute $'hi! NoCmdline_stnm {x}fg={st.bg} {x}bg={nm.bg} {x}={g:nocmdline.tail_style}'
-  execute $'hi! NoCmdline_ncst {x}fg={nc.bg} {x}bg={st.bg} {x}={g:nocmdline.sep_style}'
+  const st = GetFgBg('CmdHeight0')
+  const nc = GetFgBg('CmdHeight0ModeNC')
+  execute $'hi! CmdHeight0_stnm {x}fg={st.bg} {x}bg={nm.bg} {x}={g:cmdheight0.tail_style}'
+  execute $'hi! CmdHeight0_ncst {x}fg={nc.bg} {x}bg={st.bg} {x}={g:cmdheight0.sep_style}'
 enddef
 
 # --------------------
@@ -222,14 +222,14 @@ enddef
 # --------------------
 
 def SetupStl()
-  if g:nocmdline.zen ==# 1
-    &statusline = '%#NoCmdlineHoriz#%{nocmdline#HorizLine()}'
+  if g:cmdheight0.zen ==# 1
+    &statusline = '%#CmdHeight0Horiz#%{cmdheight0#HorizLine()}'
     return
   endif
-  const mode   = '%#NoCmdline_md#%{w:nocmdline.m}%#NoCmdline_mdst#%{w:nocmdline.sep}'
-  const modeNC = '%#NoCmdlineModeNC#%{w:nocmdline.mNC}%#NoCmdline_ncst#%{w:nocmdline.sepNC}'
-  const tail   = '%#NoCmdline_stnm#%{g:nocmdline.tail}'
-  const format = '%#NoCmdline#%<' .. g:nocmdline.format->substitute('%\@<!%|', '%{nocmdline.sub}', 'g')
+  const mode   = '%#CmdHeight0_md#%{w:cmdheight0.m}%#CmdHeight0_mdst#%{w:cmdheight0.sep}'
+  const modeNC = '%#CmdHeight0ModeNC#%{w:cmdheight0.mNC}%#CmdHeight0_ncst#%{w:cmdheight0.sepNC}'
+  const tail   = '%#CmdHeight0_stnm#%{g:cmdheight0.tail}'
+  const format = '%#CmdHeight0#%<' .. g:cmdheight0.format->substitute('%\@<!%|', '%{cmdheight0.sub}', 'g')
   &statusline = $'{mode}{modeNC}{format}{tail}%#Normal# '
 enddef
 
@@ -243,7 +243,7 @@ def GetMode(): string
     return '^V'
   elseif m ==# "\<C-s>"
     return '^S'
-  elseif !g:nocmdline.mode->has_key(m)
+  elseif !g:cmdheight0.mode->has_key(m)
     return '*'
   else
     return m
@@ -251,31 +251,31 @@ def GetMode(): string
 enddef
 
 def ClearMode()
-  w:nocmdline = {
+  w:cmdheight0 = {
     m: '',
     sep: '',
-    mNC: g:nocmdline.mode.NC,
-    sepNC: g:nocmdline.sep,
+    mNC: g:cmdheight0.mode.NC,
+    sepNC: g:cmdheight0.sep,
   }
 enddef
 
 def UpdateMode()
   const m = GetMode()
-  const mode_name = g:nocmdline.mode[m]
-  w:nocmdline = {
+  const mode_name = g:cmdheight0.mode[m]
+  w:cmdheight0 = {
     m: mode_name,
-    sep: g:nocmdline.sep,
+    sep: g:cmdheight0.sep,
     mNC: '',
     sepNC: '',
   }
 
   # Color
   const mode_color = colors[m][0]
-  execute $'hi! link NoCmdline_md {mode_color}'
+  execute $'hi! link CmdHeight0_md {mode_color}'
   const st = GetFgBg('StatusLine')
   const mc = GetFgBg(mode_color)
   const x = has('gui') ? 'gui' : 'cterm'
-  execute $'hi! NoCmdline_mdst {x}fg={mc.bg} {x}bg={st.bg} {x}={g:nocmdline.sep_style}'
+  execute $'hi! CmdHeight0_mdst {x}fg={mc.bg} {x}bg={st.bg} {x}={g:cmdheight0.sep_style}'
 enddef
 
 
@@ -285,7 +285,7 @@ enddef
 
 def ExpandFunc(winid: number, buf: number, expr_: string): string
   var expr = expr_->substitute('^[]a-zA-Z_\.[]\+$', 'g:\0', '')
-  return nocmdline_legacy#WinExecute(winid, $'echon {expr}')
+  return cmdheight0_legacy#WinExecute(winid, $'echon {expr}')
 enddef
 
 def Expand(fmt: string, winid: number, winnr: number): string
@@ -296,7 +296,7 @@ def Expand(fmt: string, winid: number, winnr: number): string
     ->substitute('%\@<!%\(-*\d*\)L', (m) => printf($'%{m[1]}d', line('$', winid)), 'g')
     ->substitute('%\@<!%r', (getbufvar(buf, '&readonly') ? '[RO]' : ''), 'g')
     ->substitute('%\@<!%m', (getbufvar(buf, '&modified') ? getbufvar(buf, '&modifiable') ? '[+]' : '[+-]' : ''), 'g')
-    ->substitute('%\@<!%|', g:nocmdline.sub, 'g')
+    ->substitute('%\@<!%|', g:cmdheight0.sub, 'g')
     ->substitute('%\@<!%t', bufname(winbufnr(winnr)), 'g')
     ->substitute('%\@<!%{\([^}]*\)}', (m) => ExpandFunc(winid, buf, m[1]), 'g')
     ->substitute('%%', '%', 'g')
@@ -307,9 +307,9 @@ def EchoStl(opt: any = { redraw: false })
   if m ==# 'c' || m ==# 'r'
     return
   endif
-  if g:nocmdline.winupdated ==# 1
+  if g:cmdheight0.winupdated ==# 1
     UpdateBottomWinIds()
-    g:nocmdline.winupdated = 0
+    g:cmdheight0.winupdated = 0
   endif
 
   if opt.redraw
@@ -397,42 +397,42 @@ def EchoStlWin(winid: number)
   endif
 
   # Zen
-  if g:nocmdline.zen
+  if g:cmdheight0.zen
     EchoNextLine(winid, winnr)
     return
   endif
 
   # Echo Mode
-  var mode_name = winnr() ==# winnr ? w:nocmdline.m : g:nocmdline.mode.NC
+  var mode_name = winnr() ==# winnr ? w:cmdheight0.m : g:cmdheight0.mode.NC
   const minwidth = strdisplaywidth(
     mode_name ..
-    g:nocmdline.sep ..
-    g:nocmdline.tail
+    g:cmdheight0.sep ..
+    g:cmdheight0.tail
   )
   if ww <= minwidth
     if winnr() ==# winnr
-      echoh NoCmdline_md
+      echoh CmdHeight0_md
     else
-      echoh NoCmdlineModeNC
+      echoh CmdHeight0ModeNC
     endif
     echo printf($'%.{ww - 1}S', mode_name)
     return
   endif
 
-  const ss = getwinvar(winnr, 'nocmdline')
+  const ss = getwinvar(winnr, 'cmdheight0')
   if winnr() ==# winnr
-    echoh NoCmdline_md
+    echoh CmdHeight0_md
     echon mode_name
-    echoh NoCmdline_mdst
-    echon g:nocmdline.sep
+    echoh CmdHeight0_mdst
+    echon g:cmdheight0.sep
   else
-    echoh NoCmdlineModeNC
+    echoh CmdHeight0ModeNC
     echon mode_name
-    echoh NoCmdline_ncst
-    echon g:nocmdline.sep
+    echoh CmdHeight0_ncst
+    echon g:cmdheight0.sep
   endif
 
-  const left_right = g:nocmdline.format->split('%=')
+  const left_right = g:cmdheight0.format->split('%=')
   var left = Expand(left_right[0], winid, winnr)
   var right = Expand(get(left_right, 1, ''), winid, winnr)
 
@@ -448,21 +448,21 @@ def EchoStlWin(winid: number)
   left = printf($'%-{maxleft}S', left)
 
   # Echo content
-  echoh NoCmdline
+  echoh CmdHeight0
   echon left .. right
 
   # Echo tail
-  echoh NoCmdline_stnm
-  echon g:nocmdline.tail
+  echoh CmdHeight0_stnm
+  echon g:cmdheight0.tail
   echoh Normal
 enddef
 
 def Update()
-  if get(g:nocmdline, 'initialized', 0) ==# 0
+  if get(g:cmdheight0, 'initialized', 0) ==# 0
     Init()
     return
   endif
-  g:nocmdline.winupdated = 1
+  g:cmdheight0.winupdated = 1
   SaveWinSize()
   SetupStl()
   SetupColor()
@@ -476,26 +476,26 @@ enddef
 # --------------------
 
 export def Invalidate(timer: any = 0)
-  if ! exists('w:nocmdline')
+  if ! exists('w:cmdheight0')
     ClearMode()
   endif
-  augroup nocmdline_invalidate
+  augroup cmdheight0_invalidate
     au!
     au SafeState * ++once Silent(Update)
   augroup END
 enddef
 
 export def ToggleZen(flg: number = -1)
-  if get(g:nocmdline, 'initialized', 0) !=# 1
+  if get(g:cmdheight0, 'initialized', 0) !=# 1
     Init()
     return
   endif
-  g:nocmdline.zen = flg !=# -1 ? flg : g:nocmdline.zen !=# 0 ? 0 : 1
+  g:cmdheight0.zen = flg !=# -1 ? flg : g:cmdheight0.zen !=# 0 ? 0 : 1
   Update()
 enddef
 
 export def HorizLine(): string
   const width = winwidth(0)
-  return printf($"%.{width}S", repeat(g:nocmdline.horiz, width))
+  return printf($"%.{width}S", repeat(g:cmdheight0.horiz, width))
 enddef
 

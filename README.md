@@ -1,10 +1,10 @@
-# vim-nocmdline
+# vim-cmdheight0
 
 ⚠ THIS HAS MANY BUGS !  
 📜 Powered by vim9script
 
 ## INTRODUCTION
-nocmdline is a Vim plugin emulates statusline with `echo`.  
+cmdheight0 is a Vim plugin emulates statusline with `echo`.  
 So, it looks like `cmdheight=0`.
 
 <img width="600" src="https://user-images.githubusercontent.com/6848636/190131571-b58d55a4-c258-42d9-bf4a-379cc8106490.png">
@@ -22,41 +22,41 @@ also, Zen mode (emulates the next line). 🧘
   ```vim
   vim9script
   ⋮
-  dein# add('utubo/vim-nocmdline')
+  dein# add('utubo/vim-cmdheight0')
   ⋮
-  g:nocmdline = get(g:, 'nocmdline', {})
-  g:nocmdline.format = '%t %m%r %=%`%3l:%-2c%`%{&ff} %{&fenc} %L'
+  g:cmdheight0 = get(g:, 'cmdheight0', {})
+  g:cmdheight0.format = '%t %m%r %=%`%3l:%-2c%`%{&ff} %{&fenc} %L'
   # require nerd fonts
-  g:nocmdline.tail = "\ue0be"
-  g:nocmdline.tail_style = "reverse"
-  g:nocmdline.sep  = "\ue0bc"
-  g:nocmdline.sub  = "\ue0bb"
-  nnoremap ZZ <ScriptCmd>nocmdline#ToggleZen()<CR>
-  # You can disable nocmdline at VimEnter
-  #g:nocmdline.at_start = 0
+  g:cmdheight0.tail = "\ue0be"
+  g:cmdheight0.tail_style = "reverse"
+  g:cmdheight0.sep  = "\ue0bc"
+  g:cmdheight0.sub  = "\ue0bb"
+  nnoremap ZZ <ScriptCmd>cmdheight0#ToggleZen()<CR>
+  # You can disable cmdheight0 at VimEnter
+  #g:cmdheight0.at_start = 0
   ```
 
 
 ## INTERFACE
 
 ### API
-#### `nocmdline#Invalidate()`
+#### `cmdheight0#Invalidate()`
 Update statusline.
 
-#### `nocmdline#ToggleZen([{enable}])`
+#### `cmdheight0#ToggleZen([{enable}])`
 Toggle Zen mode.  
 Zen echos the next line instead of statusline.  
 (sorry, Zen don't support hilight, conceal and others...)  
 `enable` is number `0`(disable) or `1`(enable).
 
 ### VARIABLES
-#### `g:nocmdline`
-`g:nocmdline` is dictionaly.  
+#### `g:cmdheight0`
+`g:cmdheight0` is dictionaly.  
 
 - `at_start`  
   number.  
-  `0`: disable nocmdline at VimEnter.  
-  `1`: enable nocmdline at VimEnter.  
+  `0`: disable cmdheight0 at VimEnter.  
+  `1`: enable cmdheight0 at VimEnter.  
   `default` is `1`.  
 - `delay`  
   seconds of show statusline when return from Command-mode.  
@@ -83,9 +83,9 @@ Zen echos the next line instead of statusline.
 - `mode`  
   the names of mode.
 
-#### `g:nocmdline.format`
+#### `g:cmdheight0.format`
 see `:help statusline`.
-nocmdline supports these only.
+cmdheight0 supports these only.
 
 ```
 t S   File name (tail) of file in the buffer.
@@ -98,17 +98,17 @@ c N   Column number (byte index).
 = -   Separation point between left and right aligned items.
 ```
 
-and `%|` sugar-coats `%{g:nocmdline.sub}`
+and `%|` sugar-coats `%{g:cmdheight0.sub}`
 
 `%{expr}` evalute expr with legacy vimscript. (not vim9script)
 the global variables need `g:`.
 
-#### `g:nocmdline.mode`
+#### `g:cmdheight0.mode`
 see `:help mode()`.
 
 ```vim
 # default
-g:nocmdline.mode = {
+g:cmdheight0.mode = {
 n:    'Normal',
 v:    'Visual',
 V:    'V-Line',
@@ -130,22 +130,22 @@ t:    'Terminal',
 ### COLORS
 the mode colors.
 
-|Hilight group        |Default color               |
-|---------------------|----------------------------|
-|NoCmdline            |StatusLine                  |
-|NoCmdlineNormal      |ToolBarButton               |
-|NoCmdlineVisual      |Visual                      |
-|NoCmdlineVisualLine  |VisualNOS                   |
-|NoCmdlineVisualBlock |link to NoCmdlineVisualLine |
-|NoCmdlineSelect      |DiffChange                  |
-|NoCmdlineSelectLine  |link to NoCmdlineSelect     |
-|NoCmdlineSelectBlock |link to NoCmdlineSelect     |
-|NoCmdlineInsert      |DiffAdd                     |
-|NoCmdlineReplace     |DiffChange                  |
-|NoCmdlineCommand     |WildMenu                    |
-|NoCmdlinePrompt      |Search                      |
-|NoCmdlineTerm        |StatusLineTerm              |
-|NoCmdlineShell       |StatusLineTermNC            |
-|NoCmdlineModeNC      |StatusLineNC for not-current windows. |
-|NoCmdlineOther       |link to NoCmdlineModeNC for unknown mode. |
+|Hilight group         |Default color                |
+|----------------------|-----------------------------|
+|CmdHeight0            |StatusLine                   |
+|CmdHeight0Normal      |ToolBarButton                |
+|CmdHeight0Visual      |Visual                       |
+|CmdHeight0VisualLine  |VisualNOS                    |
+|CmdHeight0VisualBlock |link to CmdHeight0VisualLine |
+|CmdHeight0Select      |DiffChange                   |
+|CmdHeight0SelectLine  |link to CmdHeight0Select     |
+|CmdHeight0SelectBlock |link to CmdHeight0Select     |
+|CmdHeight0Insert      |DiffAdd                      |
+|CmdHeight0Replace     |DiffChange                   |
+|CmdHeight0Command     |WildMenu                     |
+|CmdHeight0Prompt      |Search                       |
+|CmdHeight0Term        |StatusLineTerm               |
+|CmdHeight0Shell       |StatusLineTermNC             |
+|CmdHeight0ModeNC      |StatusLineNC for not-current windows. |
+|CmdHeight0Other       |link to CmdHeight0ModeNC for unknown mode. |
 

@@ -1,4 +1,4 @@
-*nocmdline.txt*
+*cmdheight0.txt*
 
 Author  : utubo
 License : MIT license  {{{
@@ -22,26 +22,26 @@ License : MIT license  {{{
 }}}
 
 ==============================================================================
-CONTENTS					*nocmdline-contents*
+CONTENTS						*cmdheight0-contents*
 
-INTRODUCTION			|nocmdline-introduction|
-USAGE				|nocmdline-usage|
-INTERFACE			|nocmdline-interface|
-  VARIABLES			  |nocmdline-variables|
-  COLORS			  |nocmdline-colors|
+INTRODUCTION			|cmdheight0-introduction|
+USAGE				|cmdheight0-usage|
+INTERFACE			|cmdheight0-interface|
+  VARIABLES			  |cmdheight0-variables|
+  COLORS			  |cmdheight0-colors|
 
 
 ==============================================================================
-INTRODUCTION					*nocmdline-introduction*
+INTRODUCTION						*cmdheight0-introduction*
 
-*nocmdline* is a Vim plugin emulate statusline with `echo`.
+*cmdheight0* is a Vim plugin emulate statusline with `echo`.
 
 Latest version:
-https://github.com/utubo/vim-nocmdline
+https://github.com/utubo/vim-cmdheight0
 
 
 ==============================================================================
-USAGE						*nocmdline-usage*
+USAGE							*cmdheight0-usage*
 
 Require
 	vim9script
@@ -52,41 +52,41 @@ Install
 >
 		vim9script
 		⋮
-		dein#add('utubo/vim-nocmdline')
+		dein#add('utubo/vim-cmdheight0')
 		⋮
-		g:nocmdline = get(g:, 'nocmdline', {})
-		g:nocmdline.format = '%t %m%r %=%|%3l:%-2c%|%{&ff} %{&fenc} %L'
+		g:cmdheight0 = get(g:, 'cmdheight0', {})
+		g:cmdheight0.format = '%t %m%r %=%|%3l:%-2c%|%{&ff} %{&fenc} %L'
 		# require nerd fonts
-		g:nocmdline.tail = "\ue0be"
-		g:nocmdline.tail_style = "reverse"
-		g:nocmdline.sep  = "\ue0bc"
-		g:nocmdline.sub  = "\ue0bb"
-		nnoremap ZZ <ScriptCmd>nocmdline#ToggleZen()<CR>
+		g:cmdheight0.tail = "\ue0be"
+		g:cmdheight0.tail_style = "reverse"
+		g:cmdheight0.sep  = "\ue0bc"
+		g:cmdheight0.sub  = "\ue0bb"
+		nnoremap ZZ <ScriptCmd>cmdheight0#ToggleZen()<CR>
 <
 
 
 ==============================================================================
-INTERFACE					*nocmdline-interface*
+INTERFACE						*cmdheight0-interface*
 
-nocmdline#Invalidate()				*nocmdline#Invalidate*
+cmdheight0#Invalidate()					*cmdheight0#Invalidate*
 	Update statusline.
 
-nocmdline#ToggleZen([{enable}])			*nocmdline#ToggleZen*
+cmdheight0#ToggleZen([{enable}])			*cmdheight0#ToggleZen*
 	Toggle Zen mode.
 	Zen echos next line instead of statusline.
 	(sorry, Zen don't support hilight, conceal and others...)
 	{enable} is number `0`(disable) or `1`(enable).
 
 ------------------------------------------------------------------------------
-VARIABLES					*nocmdline-variables*
+VARIABLES						*cmdheight0-variables*
 
-g:nocmdline					*g:nocmdline*
-	`g:nocmdline` is dictionaly.
+g:cmdheight0						*g:cmdheight0*
+	`g:cmdheight0` is dictionaly.
 		`at_start`	number.
-				`0`: prevent start nocmdline at `VimEnter`.
+				`0`: prevent start cmdheight0 at `VimEnter`.
 				default is `1`.
-		`delay`		seconds of show statusline when return from
-				Command-mode.
+		`delay`		the seconds of show statusline when return
+				from Command-mode.
 				default is `&updatetime` / 1000.
 		`zen`		number.
 				`0`: disable zen mode.
@@ -100,13 +100,13 @@ g:nocmdline					*g:nocmdline*
 				default is `NONE`.
 		`horiz`		the char of the horizontal line on zen mode.
 		`format`	the format of statusline.
-				see g:nocmdline.format
+				see g:cmdheight0.format
 		`mode`		the names of mode.
-				see g:nocmdline.mode
+				see g:cmdheight0.mode
 
-g:nocmdline.format					*g:nocmdline.format*
+g:cmdheight0.format					*g:cmdheight0.format*
 	see `:help statusline` .
-	nocmdline supports these only.
+	cmdheight0 supports these only.
 
 	t S   File name (tail) of file in the buffer.
 	m F   Modified flag, text is "[+]"; "[-]" if 'modifiable' is off.
@@ -117,16 +117,16 @@ g:nocmdline.format					*g:nocmdline.format*
 	{ NF  Evaluate expression between '%{' and '}' and substitute result.
 	= -   Separation point between left and right aligned items.
 
-	and `%|` sugar-coats `%{g:nocmdline.sub}`
+	and `%|` sugar-coats `%{g:cmdheight0.sub}`
 
 	`%{expr}` evalute expr with legacy vimscript. (not vim9script)
 	global variables need `g:`.
 
-g:nocmdline.mode					*g:nocmdline.mode*
+g:cmdheight0.mode					*g:cmdheight0.mode*
 	see `:help mode()` .
 >
 	# default
-	g:nocmdline.mode = {
+	g:cmdheight0.mode = {
 		n:	'Normal',
 		v:	'Visual',
 		V:	'V-Line',
@@ -146,29 +146,29 @@ g:nocmdline.mode					*g:nocmdline.mode*
 <
 
 ------------------------------------------------------------------------------
-COLORS							*nocmdline-colors*
+COLORS							*cmdheight0-colors*
 	Base
 	Hilight group		Default color		Note
-	NoCmdline		StatusLine
-	NoCmdlineHoriz		VertSplit		Horizontal separator
+	CmdHeight0		StatusLine
+	CmdHeight0Horiz		VertSplit		Horizontal separator
 
 	The mode colors.
 	Hilight group		Default color		Note
-	NoCmdlineNormal		ToolBarButton
-	NoCmdlineVisual		Visual
-	NoCmdlineVisualLine	VisualNOS
-	NoCmdlineVisualBlock	link to NoCmdlineVisualLine
-	NoCmdlineSelect		DiffChange
-	NoCmdlineSelectLine	link to NoCmdlineSelect
-	NoCmdlineSelectBlock	link to NoCmdlineSelect
-	NoCmdlineInsert		DiffAdd
-	NoCmdlineReplace	DiffChange
-	NoCmdlineCommand	WildMenu
-	NoCmdlinePrompt		Search
-	NoCmdlineTerm	 	StatusLineTerm
-	NoCmdlineShell	 	StatusLineTermNC
-	NoCmdlineModeNC		StatusLineNC		for not-current windows.
-	NoCmdlineOther	 	link to NoCmdlineModeNC	for unknown mode.
+	CmdHeight0Normal	ToolBarButton
+	CmdHeight0Visual	Visual
+	CmdHeight0VisualLine	VisualNOS
+	CmdHeight0VisualBlock	link to CmdHeight0VisualLine
+	CmdHeight0Select	DiffChange
+	CmdHeight0SelectLine	link to CmdHeight0Select
+	CmdHeight0SelectBlock	link to CmdHeight0Select
+	CmdHeight0Insert	DiffAdd
+	CmdHeight0Replace	DiffChange
+	CmdHeight0Command	WildMenu
+	CmdHeight0Prompt	Search
+	CmdHeight0Term	 	StatusLineTerm
+	CmdHeight0Shell	 	StatusLineTermNC
+	CmdHeight0ModeNC	StatusLineNC		for not-current windows.
+	CmdHeight0Other	 	link to CmdHeight0ModeNC	for unknown mode.
 
 
 ==============================================================================
