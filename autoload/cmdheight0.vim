@@ -105,7 +105,7 @@ export def Init()
     delay: &updatetime / 1000,
   }
   g:cmdheight0->extend(override)
-  w:cmdheight0 = { m: '' }
+  w:cmdheight0 = { m: '', m_row: 'n' }
   set noruler
   set noshowcmd
   set laststatus=0
@@ -268,6 +268,7 @@ enddef
 def ClearMode()
   w:cmdheight0 = {
     m: '',
+    m_row: get(w:, 'cmdheight0', {})->get('m_row', 'n'),
     sep: '',
     mNC: g:cmdheight0.mode.NC,
     sepNC: g:cmdheight0.sep,
@@ -279,6 +280,7 @@ def UpdateMode()
   const mode_name = g:cmdheight0.mode[m]
   w:cmdheight0 = {
     m: mode_name,
+    m_row: m,
     sep: g:cmdheight0.sep,
     mNC: '',
     sepNC: '',
@@ -291,6 +293,12 @@ def UpdateMode()
   const mc = GetFgBg(mode_color)
   const x = has('gui') ? 'gui' : 'cterm'
   execute $'hi! CmdHeight0_mdst {x}fg={mc.bg} {x}bg={st.bg} {x}={g:cmdheight0.sep_style}'
+
+  # for Terminal
+  if m ==# 't'
+    nnoremap <buffer> <script> <silent> a :call cmdheight0#Invalidate()<CR>a
+    nnoremap <buffer> <script> <silent> i :call cmdheight0#Invalidate()<CR>i
+  endif
 enddef
 
 
@@ -313,6 +321,17 @@ export def ExpandFunc(winid: number, buf: number, expr_: string, sub: string): s
   return result
 enddef
 
+def ExpandT(buf: number): string
+  var ts = term_getstatus(buf)
+  if !ts
+    return bufname(buf)
+  endif
+  if ts ==# 'running,normal'
+    ts = 'Terminal'
+  endif
+  return fnamemodify(bufname(buf), ':t') .. ' [' .. ts .. ']'
+enddef
+
 def Expand(fmt: string, winid: number, winnr: number, sub: string): string
   const buf = winbufnr(winnr)
   return fmt
@@ -322,7 +341,7 @@ def Expand(fmt: string, winid: number, winnr: number, sub: string): string
     ->substitute('%\@<!%r', (getbufvar(buf, '&readonly') ? '[RO]' : ''), 'g')
     ->substitute('%\@<!%m', (getbufvar(buf, '&modified') ? getbufvar(buf, '&modifiable') ? '[+]' : '[+-]' : ''), 'g')
     ->substitute('%\@<!%|', sub, 'g')
-    ->substitute('%\@<!%t', bufname(winbufnr(winnr)), 'g')
+    ->substitute('%\@<!%t', ExpandT(buf), 'g')
     ->substitute('%\@<!%{\([^}]*\)}', (m) => ExpandFunc(winid, buf, m[1], sub), 'g')
     ->substitute('%%', '%', 'g')
 enddef
