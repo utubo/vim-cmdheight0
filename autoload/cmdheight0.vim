@@ -25,12 +25,6 @@ enddef
 # get bottom windows
 var bottomWinIds = []
 
-# cache strings
-var fmt_lt = ''
-var fmt_rt = ''
-var sub_lt = ''
-var sub_rt = ''
-
 def GetBottomWinIds(layout: any): any
   if layout[0] ==# 'col'
     return GetBottomWinIds(layout[1][-1])
@@ -68,6 +62,12 @@ def Truncate(s: string, vc: number): string
   const b = '<' .. printf($'%.{vc - 1}S', a)->split('.\zs')->reverse()->join('')
   return printf($'%.{vc}S', b)
 enddef
+
+# cache strings
+var fmt_lt = ''
+var fmt_rt = ''
+var sub_lt = ''
+var sub_rt = ''
 
 # --------------------
 # Setup
