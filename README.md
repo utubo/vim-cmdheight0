@@ -102,7 +102,7 @@ Specials for vim-cmdheight0
 | -   Sub-separator
 ```
 
-`%{expr|}` Append the sub-separator when expr is not epmty.
+`%{expr|}` Append the sub-separator when expr is not empty.
 
 `%{expr}` evalute expr with legacy vimscript. (not vim9script)
 global variables need `g:`.
