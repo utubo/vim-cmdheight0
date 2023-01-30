@@ -104,8 +104,8 @@ Specials for vim-cmdheight0
 
 `%{expr|}` Append the sub-separator when expr is not empty.
 
-`%{expr}` evalute expr with legacy vimscript. (not vim9script)
-global variables need `g:`.
+`%{expr}` Evalute expr with legacy vimscript. (not vim9script)  
+The global variables need `g:`.
 
 
 #### `g:cmdheight0.mode`
