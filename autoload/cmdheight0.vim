@@ -25,6 +25,12 @@ enddef
 # get bottom windows
 var bottomWinIds = []
 
+# cache strings
+var fmt_lt = ''
+var fmt_rt = ''
+var sub_lt = ''
+var sub_rt = ''
+
 def GetBottomWinIds(layout: any): any
   if layout[0] ==# 'col'
     return GetBottomWinIds(layout[1][-1])
@@ -229,11 +235,7 @@ def SetupStl()
   const mode   = '%#CmdHeight0_md#%{w:cmdheight0.m}%#CmdHeight0_mdst#%{w:cmdheight0.sep}'
   const modeNC = '%#CmdHeight0ModeNC#%{w:cmdheight0.mNC}%#CmdHeight0_ncst#%{w:cmdheight0.sepNC}'
   const tail   = '%#CmdHeight0_stnm#%{g:cmdheight0.tail}'
-  const left_right = g:cmdheight0.format->split('%=')
-  const format = '%#CmdHeight0#%<' ..
-    SubForStl(left_right[0], g:cmdheight0.sub[0]) ..
-    '%=' ..
-    SubForStl(get(left_right, 1, ''), g:cmdheight0.sub[1])
+  const format = '%#CmdHeight0#%<' .. SubForStl(fmt_lt, sub_lt) .. '%=' .. SubForStl(fmt_rt, sub_rt)
   &statusline = $'{mode}{modeNC}{format}{tail}%#Normal# '
 enddef
 
@@ -455,9 +457,8 @@ def EchoStlWin(winid: number)
     echon g:cmdheight0.sep
   endif
 
-  const left_right = g:cmdheight0.format->split('%=')
-  var left = Expand(left_right[0], winid, winnr, g:cmdheight0.subs[0])
-  var right = Expand(get(left_right, 1, ''), winid, winnr, g:cmdheight0.subs[1])
+  var left = Expand(fmt_lt, winid, winnr, sub_lt)
+  var right = Expand(fmt_rt, winid, winnr, sub_rt)
 
   # Right
   const maxright = ww - minwidth - 1
@@ -487,10 +488,14 @@ def Update()
   endif
   g:cmdheight0.winupdated = 1
   if type(g:cmdheight0.sub) ==# type('foo')
-    g:cmdheight0.subs = [g:cmdheight0.sub, g:cmdheight0.sub]
+    sub_lt = g:cmdheight0.sub
+    sub_rt = g:cmdheight0.sub
   else
-    g:cmdheight0.subs = g:cmdheight0.sub
+    [sub_lt, sub_rt] = g:cmdheight0.sub
   endif
+  const lt_rt = g:cmdheight0.format->split('%=')
+  fmt_lt = lt_rt[0]
+  fmt_rt = get(lt_rt, 1, '')
   SaveWinSize()
   SetupStl()
   SetupColor()
