@@ -97,10 +97,16 @@ c N   Column number (byte index).
 = -   Separation point between left and right aligned items.
 ```
 
-and `%|` sugar-coats `%{g:cmdheight0.sub}`
+Specials for vim-cmdheight0
+```
+| -   Sub-separator
+```
+
+`%{expr|}` Append the sub-separator when expr is not epmty.
 
 `%{expr}` evalute expr with legacy vimscript. (not vim9script)
-the global variables need `g:`.
+global variables need `g:`.
+
 
 #### `g:cmdheight0.mode`
 see `:help mode()`.

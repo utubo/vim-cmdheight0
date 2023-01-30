@@ -118,7 +118,7 @@ g:cmdheight0.format					*g:cmdheight0.format*
 	{ NF  Evaluate expression between '%{' and '}' and substitute result.
 	= -   Separation point between left and right aligned items.
 
-	Specials of vim-cmdheight0
+	Specials for vim-cmdheight0
 	| -   Sub-separator
 
 	`%{expr|} `Append the sub-separator when expr is not epmty.
