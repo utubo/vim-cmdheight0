@@ -218,6 +218,35 @@ def SetupColor()
 enddef
 
 # --------------------
+# Statusline
+# --------------------
+
+def SetupStl()
+  if g:cmdheight0.zen ==# 1
+    &statusline = '%#CmdHeight0Horiz#%{cmdheight0#HorizLine()}'
+    return
+  endif
+  const mode   = '%#CmdHeight0_md#%{w:cmdheight0.m}%#CmdHeight0_mdst#%{w:cmdheight0.sep}'
+  const modeNC = '%#CmdHeight0ModeNC#%{w:cmdheight0.mNC}%#CmdHeight0_ncst#%{w:cmdheight0.sepNC}'
+  const tail   = '%#CmdHeight0_stnm#%{g:cmdheight0.tail}'
+  const left_right = g:cmdheight0.format->split('%=')
+  const format = '%#CmdHeight0#%<' ..
+    SubForStl(left_right[0], g:cmdheight0.sub[0]) ..
+    '%=' ..
+    SubForStl(get(left_right, 1, ''), g:cmdheight0.sub[1])
+  &statusline = $'{mode}{modeNC}{format}{tail}%#Normal# '
+enddef
+
+def SubForStl(fmt: string, sub: string): string
+  return fmt
+    ->substitute('%\@<!%|', sub, 'g')
+    ->substitute('%\@<!%{\([^}]*\)|}', (m) =>
+      '%{g:cmdheight0#ExpandFunc(0, 0, "' ..
+      escape(m[1], '"') ..
+      '", "' .. sub .. '")}', 'g')
+enddef
+
+# --------------------
 # Mode
 # --------------------
 
@@ -267,7 +296,7 @@ enddef
 # Echo Statusline
 # --------------------
 
-def ExpandFunc(winid: number, buf: number, expr_: string, sub: string): string
+export def ExpandFunc(winid: number, buf: number, expr_: string, sub: string): string
   var expr = expr_->trim('|')->substitute('^[]a-zA-Z_\.[]\+$', 'g:\0', '')
   var result = cmdheight0_legacy#WinExecute(winid, $'echon {expr}')
   if !result
@@ -463,6 +492,7 @@ def Update()
     g:cmdheight0.subs = g:cmdheight0.sub
   endif
   SaveWinSize()
+  SetupStl()
   SetupColor()
   UpdateMode()
   EchoStl({ redraw: true })
