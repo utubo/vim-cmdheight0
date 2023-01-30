@@ -27,10 +27,9 @@ also, Zen mode (emulates the next line). 🧘
   g:cmdheight0 = get(g:, 'cmdheight0', {})
   g:cmdheight0.format = '%t %m%r %=%`%3l:%-2c%`%{&ff} %{&fenc} %L'
   # require nerd fonts
-  g:cmdheight0.tail = "\ue0be"
-  g:cmdheight0.tail_style = "reverse"
-  g:cmdheight0.sep  = "\ue0bc"
+  g:cmdheight0.sep  = "\ue0b8"
   g:cmdheight0.sub  = ["\ue0bf", "\ue0bb"]
+  g:cmdheight0.tail = "\ue0b8"
   nnoremap ZZ <ScriptCmd>cmdheight0#ToggleZen()<CR>
   # You can disable cmdheight0 at VimEnter
   #g:cmdheight0.at_start = 0
