@@ -60,7 +60,7 @@ Install
 		g:cmdheight0.tail = "\ue0be"
 		g:cmdheight0.tail_style = "reverse"
 		g:cmdheight0.sep  = "\ue0bc"
-		g:cmdheight0.sub  = "\ue0bb"
+		g:cmdheight0.sub  = ["\ue0bf", "\ue0bb"]
 		nnoremap ZZ <ScriptCmd>cmdheight0#ToggleZen()<CR>
 <
 
@@ -94,7 +94,9 @@ g:cmdheight0						*g:cmdheight0*
 				default is `0`.
 		`tail`		the char of right of statusline.
 		`sep`		the char of the separator of the mode.
-		`sub`		the char of the sub separator.
+		`sub`		the list of the sub-separators.
+				as [<left side>, <right side>]
+				default is ['|', '|']
 		`tail_style`, `sep_style`, `sub_style`
 				the hilight style of serpators.
 				default is `NONE`.
@@ -117,8 +119,10 @@ g:cmdheight0.format					*g:cmdheight0.format*
 	{ NF  Evaluate expression between '%{' and '}' and substitute result.
 	= -   Separation point between left and right aligned items.
 
-	and `%|` sugar-coats `%{g:cmdheight0.sub}`
+	Specials of vim-cmdheight0
+	| -   Sub-separator
 
+	`%{expr|} `Append the sub-separator when expr is not epmty.
 	`%{expr}` evalute expr with legacy vimscript. (not vim9script)
 	global variables need `g:`.
 

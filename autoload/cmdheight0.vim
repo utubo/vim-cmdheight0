@@ -75,7 +75,7 @@ export def Init()
     tail_style: 'NONE',
     sep: '',
     sep_style: 'NONE',
-    sub: '|',
+    sub: ['|', '|'],
     sub_style: 'NONE',
     horiz: '-',
     mode: {
@@ -218,22 +218,6 @@ def SetupColor()
 enddef
 
 # --------------------
-# Statusline
-# --------------------
-
-def SetupStl()
-  if g:cmdheight0.zen ==# 1
-    &statusline = '%#CmdHeight0Horiz#%{cmdheight0#HorizLine()}'
-    return
-  endif
-  const mode   = '%#CmdHeight0_md#%{w:cmdheight0.m}%#CmdHeight0_mdst#%{w:cmdheight0.sep}'
-  const modeNC = '%#CmdHeight0ModeNC#%{w:cmdheight0.mNC}%#CmdHeight0_ncst#%{w:cmdheight0.sepNC}'
-  const tail   = '%#CmdHeight0_stnm#%{g:cmdheight0.tail}'
-  const format = '%#CmdHeight0#%<' .. g:cmdheight0.format->substitute('%\@<!%|', '%{cmdheight0.sub}', 'g')
-  &statusline = $'{mode}{modeNC}{format}{tail}%#Normal# '
-enddef
-
-# --------------------
 # Mode
 # --------------------
 
@@ -283,12 +267,22 @@ enddef
 # Echo Statusline
 # --------------------
 
-def ExpandFunc(winid: number, buf: number, expr_: string): string
-  var expr = expr_->substitute('^[]a-zA-Z_\.[]\+$', 'g:\0', '')
-  return cmdheight0_legacy#WinExecute(winid, $'echon {expr}')
+def ExpandFunc(winid: number, buf: number, expr_: string, sub: string): string
+  var expr = expr_->trim('|')->substitute('^[]a-zA-Z_\.[]\+$', 'g:\0', '')
+  var result = cmdheight0_legacy#WinExecute(winid, $'echon {expr}')
+  if !result
+    return result
+  endif
+  if expr_[0] ==# '|'
+    result = sub .. result
+  endif
+  if expr_[len(expr_) - 1] ==# '|'
+    result ..= sub
+  endif
+  return result
 enddef
 
-def Expand(fmt: string, winid: number, winnr: number): string
+def Expand(fmt: string, winid: number, winnr: number, sub: string): string
   const buf = winbufnr(winnr)
   return fmt
     ->substitute('%\@<!%\(-*\d*\)c', (m) => printf($'%{m[1]}d', getcurpos(winid)[2]), 'g')
@@ -296,9 +290,9 @@ def Expand(fmt: string, winid: number, winnr: number): string
     ->substitute('%\@<!%\(-*\d*\)L', (m) => printf($'%{m[1]}d', line('$', winid)), 'g')
     ->substitute('%\@<!%r', (getbufvar(buf, '&readonly') ? '[RO]' : ''), 'g')
     ->substitute('%\@<!%m', (getbufvar(buf, '&modified') ? getbufvar(buf, '&modifiable') ? '[+]' : '[+-]' : ''), 'g')
-    ->substitute('%\@<!%|', g:cmdheight0.sub, 'g')
+    ->substitute('%\@<!%|', sub, 'g')
     ->substitute('%\@<!%t', bufname(winbufnr(winnr)), 'g')
-    ->substitute('%\@<!%{\([^}]*\)}', (m) => ExpandFunc(winid, buf, m[1]), 'g')
+    ->substitute('%\@<!%{\([^}]*\)}', (m) => ExpandFunc(winid, buf, m[1], sub), 'g')
     ->substitute('%%', '%', 'g')
 enddef
 
@@ -433,8 +427,8 @@ def EchoStlWin(winid: number)
   endif
 
   const left_right = g:cmdheight0.format->split('%=')
-  var left = Expand(left_right[0], winid, winnr)
-  var right = Expand(get(left_right, 1, ''), winid, winnr)
+  var left = Expand(left_right[0], winid, winnr, g:cmdheight0.subs[0])
+  var right = Expand(get(left_right, 1, ''), winid, winnr, g:cmdheight0.subs[1])
 
   # Right
   const maxright = ww - minwidth - 1
@@ -463,8 +457,12 @@ def Update()
     return
   endif
   g:cmdheight0.winupdated = 1
+  if type(g:cmdheight0.sub) ==# type('foo')
+    g:cmdheight0.subs = [g:cmdheight0.sub, g:cmdheight0.sub]
+  else
+    g:cmdheight0.subs = g:cmdheight0.sub
+  endif
   SaveWinSize()
-  SetupStl()
   SetupColor()
   UpdateMode()
   EchoStl({ redraw: true })
