@@ -114,21 +114,21 @@ see `:help mode()`.
 ```vim
 # default
 g:cmdheight0.mode = {
-n:    'Normal',
-v:    'Visual',
-V:    'V-Line',
-'^V': 'V-Block',
-s:    'Select',
-S:    'S-Line',
-'^S': 'S-Block',
-i:    'Insert',
-R:    'Replace',
-c:    'Command',
-r:    'Prompt',
-t:    'Terminal',
-'!':  'Shell',
-'*':  '      ', # for unknown mode.
-'NC': '------', # for not-current windows.
+  n:    'Normal',
+  v:    'Visual',
+  V:    'V-Line',
+  '^V': 'V-Block',
+  s:    'Select',
+  S:    'S-Line',
+  '^S': 'S-Block',
+  i:    'Insert',
+  R:    'Replace',
+  c:    'Command',
+  r:    'Prompt',
+  t:    'Terminal',
+  '!':  'Shell',
+  '*':  '      ', # for unknown mode.
+  'NC': '------', # for not-current windows.
 }
 ```
 
