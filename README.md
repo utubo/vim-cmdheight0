@@ -70,8 +70,8 @@ Zen echos the next line instead of statusline.
 - `sep`  
   the char of the separator of the mode.
 - `sub`  
-  the char of the sub-separators.  
-  default is `|`
+  the list of the sub-separators as `[left, right]`.  
+  default is `['|', '|']`
 - `tail_style`, `sep_style`, `sub_style`  
   the hilight style of serpators.  
   default is `NONE`.
