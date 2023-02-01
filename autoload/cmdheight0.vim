@@ -153,7 +153,7 @@ def OnSizeChangedOrScrolled()
 enddef
 
 def CursorMoved()
-  if g:cmdheight0.zen ==# 0 || &number && &relativenumber
+  if g:cmdheight0.zen ==# 0 || &number || &relativenumber
     EchoStl()
   endif
 enddef
@@ -407,9 +407,10 @@ def EchoNextLine(winid: number, winnr: number)
   # sign & line-number
   if textoff !=# 0
     echoh SignColumn
-    if getwinvar(winnr, '&number')
+    const rnu = getwinvar(winnr, '&relativenumber')
+    if getwinvar(winnr, '&number') || rnu
       const nw = max([2, getwinvar(winnr, '&numberwidth')])
-      const linestr = printf($'%{nw - 1}d ', &relativenumber ? abs(linenr - line('.')) : linenr)
+      const linestr = printf($'%{nw - 1}d ', rnu ? abs(linenr - line('.')) : linenr)
       echon repeat(' ', textoff - len(linestr))
       echoh LineNr
       echon linestr
