@@ -119,7 +119,7 @@ export def Init()
     au ModeChanged [^c]:* Silent(UpdateMode)|Silent(Invalidate)
     au ModeChanged c:* timer_start(g:cmdheight0.delay, 'cmdheight0#Invalidate')
     au TabEnter * Silent(Invalidate)
-    au OptionSet fileencoding,readonly,modifiable,number,signcolumn Silent(Invalidate)
+    au OptionSet fileencoding,readonly,modifiable,number,relativenumber,signcolumn Silent(Invalidate)
     au CursorMoved * Silent(CursorMoved)
   augroup END
   if maparg('n', 'n')->empty()
