@@ -122,6 +122,7 @@ export def Init()
     au OptionSet fileencoding,readonly,modifiable,number,relativenumber,signcolumn Silent(Invalidate)
     au CursorMoved * Silent(CursorMoved)
   augroup END
+  # prevent to echo search word
   if maparg('n', 'n')->empty()
     nnoremap <script> <silent> n n
   endif
