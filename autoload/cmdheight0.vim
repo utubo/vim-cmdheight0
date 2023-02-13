@@ -400,7 +400,7 @@ def EchoNextLine(winid: number, winnr: number)
   var width = winwidth(winnr) - 2 - textoff
   # eob
   if linenr > line('$', winid)
-    echoh NonText
+    echoh EndOfBuffer
     echon printf($'%-{winwidth(winnr) - 1}S', NVL(matchstr(&fcs, '\(eob:\)\@<=.'), '~'))
     echoh Normal
     return
