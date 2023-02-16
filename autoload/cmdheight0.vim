@@ -381,6 +381,12 @@ def WinGetLn(winid: number, linenr: number, com: string): string
 enddef
 
 def EchoNextLine(winid: number, winnr: number)
+  const ch0 = getwinvar(winnr, 'cmdheight0')
+  if ch0.m_row ==# 't'
+    redraw
+    echo ""
+    return
+  endif
   # TODO: The line is dolubled when botline is wrapped.
   var linenr = line('w$', winid)
   const fce = WinGetLn(winid, linenr, 'foldclosedend')
@@ -465,7 +471,6 @@ def EchoStlWin(winid: number)
     return
   endif
 
-  const ss = getwinvar(winnr, 'cmdheight0')
   if winnr() ==# winnr
     echoh CmdHeight0_md
     echon mode_name
