@@ -58,8 +58,12 @@ Zen echos the next line instead of statusline.
   `1`: enable cmdheight0 at VimEnter.  
   `default` is `1`.  
 - `delay`  
+  number.  
   seconds of show statusline when return from Command-mode.  
-  default is `&updatetime` / 1000.
+  default is `&updatetime` / 1000.  
+  n(> 0): delay n seconds.  
+  0: no delay.  
+  n(< 0): show statusline on cursor moved.
 - `zen`  
   number.  
   `0`: disable zen mode.  
