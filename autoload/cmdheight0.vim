@@ -448,6 +448,8 @@ def EchoNextLine(winid: number, winnr: number)
   var overwidth = width < strdisplaywidth(text)
   if overwidth
     text = printf($'%.{width}S', text)
+  else
+    text = printf($'%-{width + 1}S', text)
   endif
   var i = 1
   for c in split(text, '\zs')
