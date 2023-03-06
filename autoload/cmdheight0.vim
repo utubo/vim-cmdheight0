@@ -149,15 +149,15 @@ def OnSizeChangedOrScrolled()
   const new_wsize = [winwidth(0), winheight(0)]
   if w:cmdheight0_wsize ==# new_wsize
     EchoStl()
-    # prevent flickering
-    augroup cmdheight0_invalidate
-      au!
-      au SafeState * ++once EchoStl()
-    augroup END
   else
     w:cmdheight0_wsize = new_wsize
-    Invalidate()
+    Update()
   endif
+  # prevent flickering
+  augroup cmdheight0_invalidate
+    au!
+    au SafeState * ++once EchoStl()
+  augroup END
 enddef
 
 # Other events
