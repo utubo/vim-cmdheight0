@@ -64,11 +64,14 @@ Zen echos the next line instead of statusline.
   n(> 0): delay n seconds.  
   0: no delay.  
   n(< 0): show statusline on cursor moved.
-- `zen`  
+- `laststatus`  
   number.  
-  `0`: disable zen mode.  
-  `1`: enable zen mode.  
-  default is `0`.
+  You can use this instead of `&laststatus`.  
+  status line:  
+    `0`: never  
+    `1`: only if there are at least two windows  
+    `2`: always  
+  default is `2`.
 - `tail`  
   the char of right of statusline.
 - `sep`  

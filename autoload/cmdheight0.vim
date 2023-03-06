@@ -1,6 +1,18 @@
 vim9script
 
 # --------------------
+# Global valiables
+# --------------------
+
+# never statusline
+var zen = 0
+# cache strings
+var fmt_lt = ''
+var fmt_rt = ''
+var sub_lt = ''
+var sub_rt = ''
+
+# --------------------
 # Utils
 # --------------------
 
@@ -63,12 +75,6 @@ def Truncate(s: string, vc: number): string
   return printf($'%.{vc}S', b)
 enddef
 
-# cache strings
-var fmt_lt = ''
-var fmt_rt = ''
-var sub_lt = ''
-var sub_rt = ''
-
 # --------------------
 # Setup
 # --------------------
@@ -102,6 +108,7 @@ export def Init()
       'NC': '------',
     },
     zen: 0,
+    laststatus: 2,
     delay: &updatetime / 1000,
   }
   g:cmdheight0->extend(override)
@@ -155,7 +162,7 @@ enddef
 
 # Other events
 def CursorMoved()
-  if g:cmdheight0.zen ==# 0 || &number || &relativenumber || g:cmdheight0.delay < 0
+  if zen ==# 0 || &number || &relativenumber || g:cmdheight0.delay < 0
     EchoStl()
   endif
 enddef
@@ -204,7 +211,7 @@ def GetFgBg(name: string): any
 enddef
 
 def SetupColor()
-  if g:cmdheight0.zen ==# 1
+  if zen ==# 1
     silent! hi default link CmdHeight0Horiz VertSplit
     return
   endif
@@ -238,7 +245,7 @@ enddef
 # --------------------
 
 def SetupStl()
-  if g:cmdheight0.zen ==# 1
+  if zen ==# 1
     &statusline = '%#CmdHeight0Horiz#%{cmdheight0#HorizLine()}'
     return
   endif
@@ -463,7 +470,7 @@ def EchoStlWin(winid: number)
   endif
 
   # Zen
-  if g:cmdheight0.zen
+  if zen
     EchoNextLine(winid, winnr)
     return
   endif
@@ -526,6 +533,13 @@ def Update()
     Init()
     return
   endif
+  if g:cmdheight0.laststatus ==# 0
+    zen = 1
+  elseif g:cmdheight0.laststatus ==# 1
+    zen = winnr('$') ==# 1 ? 1 : 0
+  else
+    zen = 0
+  endif
   g:cmdheight0.winupdated = 1
   if type(g:cmdheight0.sub) ==# type('foo')
     sub_lt = g:cmdheight0.sub
@@ -563,7 +577,13 @@ export def ToggleZen(flg: number = -1)
     Init()
     return
   endif
-  g:cmdheight0.zen = flg !=# -1 ? flg : g:cmdheight0.zen !=# 0 ? 0 : 1
+  if flg ==# 1
+    g:cmdheight0.laststaus = 0
+  elseif flg ==# 0
+    g:cmdheight0.laststatus = 2
+  else
+    g:cmdheight0.laststatus = g:cmdheight0.laststatus ==# 0 ? 2 : 0
+  endif
   Update()
 enddef
 

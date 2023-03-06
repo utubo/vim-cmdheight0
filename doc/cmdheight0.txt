@@ -73,7 +73,7 @@ cmdheight0#Invalidate()					*cmdheight0#Invalidate*
 cmdheight0#ToggleZen([{enable}])			*cmdheight0#ToggleZen*
 	Toggle Zen mode.
 	Zen echos next line instead of statusline.
-	(sorry, Zen don't support conceal, tabstop and others...)
+	(sorry, Zen don't support conceal and others...)
 	{enable} is number `0`(disable) or `1`(enable).
 
 ------------------------------------------------------------------------------
@@ -91,10 +91,13 @@ g:cmdheight0						*g:cmdheight0*
 				0: no delay.
 				n(< 0): show statusline on cursor moved.
 				default is `&updatetime` / 1000.
-		`zen`		number.
-				`0`: disable zen mode.
-				`1`: enable zen mode.
-				default is `0`.
+		`laststatus`	number.
+				You can use this instead of `&laststatus`.
+				status line:
+					`0`: never
+					`1`: only if there are at least two win.
+					`2`: always
+				default is `2`.
 		`tail`		the char of right of statusline.
 		`sep`		the char of the separator of the mode.
 		`sub`		the list of the sub-separators.
