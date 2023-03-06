@@ -1,7 +1,7 @@
 vim9script
 
 # --------------------
-# Global valiables
+# Global variables
 # --------------------
 
 # never statusline
