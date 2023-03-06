@@ -45,7 +45,7 @@ Update statusline.
 #### `cmdheight0#ToggleZen([{enable}])`
 Toggle Zen mode.  
 Zen echos the next line instead of statusline.  
-(sorry, Zen don't support conceal, tabstop and others...)  
+(sorry, Zen don't support conceal and others...)  
 `enable` is number `0`(disable) or `1`(enable).
 
 ### VARIABLES

@@ -403,17 +403,6 @@ def EchoNextLine(winid: number, winnr: number)
     linenr = str2nr(fce)
   endif
   linenr += 1
-  const folded = WinGetLn(winid, linenr, 'foldclosed') !=# '-1'
-  var text = folded ?
-    WinGetLn(winid, linenr, 'foldtextresult') :
-    NVL(getbufline(winbufnr(winnr), linenr), [''])[0]
-  const ts = getwinvar(winnr, '&tabstop')
-  # tab
-  text = text
-    ->substitute('\(^\|\t\)\@<=\t', repeat(' ', ts), 'g')
-    ->substitute('\(.*\)\t', (m) => (m[1] .. repeat(' ', ts - strdisplaywidth(m[1]) % ts)), 'g')
-  const textoff = getwininfo(winid)[0].textoff
-  var width = winwidth(winnr) - 2 - textoff
   # end of buffer
   if linenr > line('$', winid)
     echoh EndOfBuffer
@@ -421,6 +410,7 @@ def EchoNextLine(winid: number, winnr: number)
     echoh Normal
     return
   endif
+  const textoff = getwininfo(winid)[0].textoff
   # sign & line-number
   if textoff !=# 0
     echoh SignColumn
@@ -435,12 +425,19 @@ def EchoNextLine(winid: number, winnr: number)
       echon repeat(' ', textoff)
     endif
   endif
-  # text
-  if folded
+  var width = winwidth(winnr) - 2 - textoff
+  # folded
+  if WinGetLn(winid, linenr, 'foldclosed') !=# '-1'
     echoh Folded
-  else
-    echoh Normal
+    echo printf($'%.{width}S', WinGetLn(winid, linenr, 'foldtextresult'))
+    return
   endif
+  # tab
+  const ts = getwinvar(winnr, '&tabstop')
+  var text = NVL(getbufline(winbufnr(winnr), linenr), [''])[0]
+    ->substitute('\(^\|\t\)\@<=\t', repeat(' ', ts), 'g')
+    ->substitute('\(.*\)\t', (m) => (m[1] .. repeat(' ', ts - strdisplaywidth(m[1]) % ts)), 'g')
+  # echo text
   var overwidth = width < strdisplaywidth(text)
   if overwidth
     text = printf($'%.{width}S', text)
