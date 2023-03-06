@@ -84,7 +84,8 @@ g:cmdheight0						*g:cmdheight0*
 		`at_start`	number.
 				`0`: prevent start cmdheight0 at `VimEnter`.
 				default is `1`.
-		`delay`		the seconds of show statusline when return
+		`delay`		number.
+				the seconds of show statusline when return
 				from Command-mode.
 				n(> 0): delay n seconds.
 				0: no delay.
