@@ -73,7 +73,7 @@ cmdheight0#Invalidate()					*cmdheight0#Invalidate*
 cmdheight0#ToggleZen([{enable}])			*cmdheight0#ToggleZen*
 	Toggle Zen mode.
 	Zen echos next line instead of statusline.
-	(sorry, Zen don't support hilight, conceal and others...)
+	(sorry, Zen don't support conceal, tabstop and others...)
 	{enable} is number `0`(disable) or `1`(enable).
 
 ------------------------------------------------------------------------------

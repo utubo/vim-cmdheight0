@@ -408,12 +408,13 @@ def EchoNextLine(winid: number, winnr: number)
     WinGetLn(winid, linenr, 'foldtextresult') :
     NVL(getbufline(winbufnr(winnr), linenr), [''])[0]
   const ts = getwinvar(winnr, '&tabstop')
+  # tab
   text = text
     ->substitute('\(^\|\t\)\@<=\t', repeat(' ', ts), 'g')
     ->substitute('\(.*\)\t', (m) => (m[1] .. repeat(' ', ts - strdisplaywidth(m[1]) % ts)), 'g')
   const textoff = getwininfo(winid)[0].textoff
   var width = winwidth(winnr) - 2 - textoff
-  # eob
+  # end of buffer
   if linenr > line('$', winid)
     echoh EndOfBuffer
     echon printf($'%-{winwidth(winnr) - 1}S', NVL(matchstr(&fcs, '\(eob:\)\@<=.'), '~'))
@@ -440,10 +441,17 @@ def EchoNextLine(winid: number, winnr: number)
   else
     echoh Normal
   endif
-  if strdisplaywidth(text) <= width
-    echon printf($'%-{width + 1}S', text)
-  else
-    echon printf($'%.{width}S', text)
+  var overwidth = width < strdisplaywidth(text)
+  if overwidth
+    text = printf($'%.{width}S', text)
+  endif
+  var i = 1
+  for c in split(text, '\zs')
+    execute 'echoh ' .. (synID(linenr, i, 1)->synIDattr('name') ?? 'Normal')
+    echon c
+    i += strdisplaywidth(c)
+  endfor
+  if overwidth
     echoh NonText
     echon '>'
   endif
