@@ -46,7 +46,10 @@ Update statusline.
 Toggle Zen mode.  
 Zen echos the next line instead of statusline.  
 (sorry, Zen don't support conceal and others...)  
-`enable` is number `0`(disable) or `1`(enable).
+`enable` is number.  
+`0`: disable Zen mode  
+`1`: enable Zen mode.  
+none: toggle Zen mode.
 
 ### VARIABLES
 #### `g:cmdheight0`

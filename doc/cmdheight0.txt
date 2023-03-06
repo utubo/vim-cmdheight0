@@ -74,7 +74,10 @@ cmdheight0#ToggleZen([{enable}])			*cmdheight0#ToggleZen*
 	Toggle Zen mode.
 	Zen echos next line instead of statusline.
 	(sorry, Zen don't support conceal and others...)
-	{enable} is number `0`(disable) or `1`(enable).
+	{enable} is number.
+		`0`: disable Zen mode
+		`1`: enable Zen mode
+		none: toggle Zen mode
 
 ------------------------------------------------------------------------------
 VARIABLES						*cmdheight0-variables*
