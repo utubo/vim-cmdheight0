@@ -86,6 +86,9 @@ g:cmdheight0						*g:cmdheight0*
 				default is `1`.
 		`delay`		the seconds of show statusline when return
 				from Command-mode.
+				n(> 0): delay n seconds.
+				0: no delay.
+				n(< 0): show statusline on cursor moved.
 				default is `&updatetime` / 1000.
 		`zen`		number.
 				`0`: disable zen mode.

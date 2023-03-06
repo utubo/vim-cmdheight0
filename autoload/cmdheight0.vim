@@ -117,7 +117,7 @@ export def Init()
     au WinLeave * Silent(ClearMode)|Silent(Invalidate)
     au WinScrolled * Silent(OnSizeChangedOrScrolled)
     au ModeChanged [^c]:* Silent(UpdateMode)|Silent(Invalidate)
-    au ModeChanged c:* timer_start(g:cmdheight0.delay, 'cmdheight0#Invalidate')
+    au ModeChanged c:* Silent(OverwriteEchoWithDelay)
     au TabEnter * Silent(Invalidate)
     au OptionSet fileencoding,readonly,modifiable,number,relativenumber,signcolumn Silent(Invalidate)
     au CursorMoved * Silent(CursorMoved)
@@ -153,9 +153,18 @@ def OnSizeChangedOrScrolled()
   endif
 enddef
 
+# Other events
 def CursorMoved()
-  if g:cmdheight0.zen ==# 0 || &number || &relativenumber
+  if g:cmdheight0.zen ==# 0 || &number || &relativenumber || g:cmdheight0.delay < 0
     EchoStl()
+  endif
+enddef
+
+def OverwriteEchoWithDelay()
+  if g:cmdheight0.delay ==# 0
+    Invalidate()
+  elseif g:cmdheight0.delay > 0
+    timer_start(g:cmdheight0.delay, 'cmdheight0#Invalidate')
   endif
 enddef
 
