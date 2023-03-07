@@ -11,6 +11,7 @@ var fmt_lt = ''
 var fmt_rt = ''
 var sub_lt = ''
 var sub_rt = ''
+var listchars = { tab: '  ', extends: '' }
 
 # --------------------
 # Utils
@@ -398,6 +399,24 @@ def WinGetLn(winid: number, linenr: number, com: string): string
   return win_execute(winid, $'echon {com}({linenr})')
 enddef
 
+def SetupZen()
+  if g:cmdheight0.laststatus ==# 0
+    zen = 1
+  elseif g:cmdheight0.laststatus ==# 1
+    zen = winnr('$') ==# 1 ? 1 : 0
+  else
+    zen = 0
+  endif
+  if !zen
+    return
+  endif
+  listchars = { tab: '  ', extends: '' }
+  for kv in split(&listchars, ',')
+    var [k, v] = split(kv, ':')
+    listchars[k] = v
+  endfor
+enddef
+
 def EchoNextLine(winid: number, winnr: number)
   const ch0 = getwinvar(winnr, 'cmdheight0')
   if ch0.m_row ==# 't'
@@ -447,19 +466,26 @@ def EchoNextLine(winid: number, winnr: number)
   endif
   # tab
   const ts = getwinvar(winnr, '&tabstop')
+  const expandtab = listchars.tab[0] .. repeat(listchars.tab[1], ts)
   var text = NVL(getbufline(winbufnr(winnr), linenr), [''])[0]
   var i = 1
   var v = 0
   for c in split(text, '\zs')
-    execute 'echoh ' .. (synID(linenr, i, 1)->synIDattr('name') ?? 'Normal')
     var vc = c
     if vc ==# "\t"
-      vc = repeat(' ', ts - v % ts)
+      echoh SpecialKey
+      if !listchars.tab[2]
+        vc = strpart(expandtab, 0, ts - v % ts)
+      else
+        vc = strpart(expandtab, 0, ts - v % ts - 1) .. listchars.tab[2]
+      endif
+    else
+    execute 'echoh ' .. (synID(linenr, i, 1)->synIDattr('name') ?? 'Normal')
     endif
     var vw = strdisplaywidth(vc)
     if width <= v + vw
-      echoh NonText
-      echon '>'
+      echoh SpecialKey
+      echon listchars.extends ?? printf('%.1S', c)
       v += 1
       break
     endif
@@ -542,13 +568,6 @@ def Update()
     Init()
     return
   endif
-  if g:cmdheight0.laststatus ==# 0
-    zen = 1
-  elseif g:cmdheight0.laststatus ==# 1
-    zen = winnr('$') ==# 1 ? 1 : 0
-  else
-    zen = 0
-  endif
   g:cmdheight0.winupdated = 1
   if type(g:cmdheight0.sub) ==# type('foo')
     sub_lt = g:cmdheight0.sub
@@ -560,6 +579,7 @@ def Update()
   fmt_lt = lt_rt[0]
   fmt_rt = get(lt_rt, 1, '')
   SaveWinSize()
+  SetupZen()
   SetupStl()
   SetupColor()
   UpdateMode()
