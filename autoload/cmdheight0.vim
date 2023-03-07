@@ -442,32 +442,33 @@ def EchoNextLine(winid: number, winnr: number)
   # folded
   if WinGetLn(winid, linenr, 'foldclosed') !=# '-1'
     echoh Folded
-    echon printf($'%-{width}S', WinGetLn(winid, linenr, 'foldtextresult'))
+    echon printf($'%.{width}S', WinGetLn(winid, linenr, 'foldtextresult'))->printf($'%-{width}S')
     return
   endif
   # tab
   const ts = getwinvar(winnr, '&tabstop')
   var text = NVL(getbufline(winbufnr(winnr), linenr), [''])[0]
-    ->substitute('\(^\|\t\)\@<=\t', repeat(' ', ts), 'g')
-    ->substitute('\(.*\)\t', (m) => (m[1] .. repeat(' ', ts - strdisplaywidth(m[1]) % ts)), 'g')
-  # echo text
-  var overwidth = width < strdisplaywidth(text)
-  if overwidth
-    text = printf($'%.{width - 1}S', text)
-  else
-    text = printf($'%-{width}S', text)
-  endif
   var i = 1
+  var v = 0
   for c in split(text, '\zs')
     execute 'echoh ' .. (synID(linenr, i, 1)->synIDattr('name') ?? 'Normal')
-    echon c
-    i += strdisplaywidth(c)
+    var vc = c
+    if vc ==# "\t"
+      vc = repeat(' ', ts - v % ts)
+    endif
+    var vw = strdisplaywidth(vc)
+    if width <= v + vw
+      echoh NonText
+      echon '>'
+      v += 1
+      break
+    endif
+    echon vc
+    i += len(c)
+    v += vw
   endfor
-  if overwidth
-    echoh NonText
-    echon '>'
-  endif
   echoh Normal
+  echon repeat(' ', width - v)
 enddef
 
 def EchoStlWin(winid: number)
