@@ -380,14 +380,16 @@ def EchoStl(opt: any = { redraw: false })
   endif
 
   var has_prev = false
-  for winnr in bottomWinIds
+  for winid in bottomWinIds
     if has_prev
       # vert split
-      echon ' '
+      if !zen
+        echon ' '
+      endif
       echoh StatusLine
       echon ' '
     endif
-    EchoStlWin(winnr)
+    EchoStlWin(winid)
     has_prev = true
   endfor
 enddef
@@ -403,6 +405,10 @@ def EchoNextLine(winid: number, winnr: number)
     echo ""
     return
   endif
+  var width = winwidth(winnr)
+  if winid ==# bottomWinIds[-1]
+    width -= 1
+  endif
   # TODO: The line is dolubled when botline is wrapped.
   var linenr = line('w$', winid)
   const fce = WinGetLn(winid, linenr, 'foldclosedend')
@@ -413,7 +419,7 @@ def EchoNextLine(winid: number, winnr: number)
   # end of buffer
   if linenr > line('$', winid)
     echoh EndOfBuffer
-    echon printf($'%-{winwidth(winnr) - 1}S', NVL(matchstr(&fcs, '\(eob:\)\@<=.'), '~'))
+    echon printf($'%-{width}S', NVL(matchstr(&fcs, '\(eob:\)\@<=.'), '~'))
     echoh Normal
     return
   endif
@@ -432,11 +438,11 @@ def EchoNextLine(winid: number, winnr: number)
       echon repeat(' ', textoff)
     endif
   endif
-  var width = winwidth(winnr) - 2 - textoff
+  width -= textoff
   # folded
   if WinGetLn(winid, linenr, 'foldclosed') !=# '-1'
     echoh Folded
-    echon printf($'%.{width}S', WinGetLn(winid, linenr, 'foldtextresult'))
+    echon printf($'%-{width}S', WinGetLn(winid, linenr, 'foldtextresult'))
     return
   endif
   # tab
@@ -447,9 +453,9 @@ def EchoNextLine(winid: number, winnr: number)
   # echo text
   var overwidth = width < strdisplaywidth(text)
   if overwidth
-    text = printf($'%.{width}S', text)
+    text = printf($'%.{width - 1}S', text)
   else
-    text = printf($'%-{width + 1}S', text)
+    text = printf($'%-{width}S', text)
   endif
   var i = 1
   for c in split(text, '\zs')
