@@ -44,7 +44,7 @@ def GetBottomWinIds(layout: any): any
   elseif layout[0] ==# 'row'
     var rows = []
     for r in layout[1]
-       rows += GetBottomWinIds(r)
+      rows += GetBottomWinIds(r)
     endfor
     return rows
   else
@@ -226,13 +226,13 @@ def SetupColor()
   const x = has('gui') ? 'gui' : 'cterm'
   for [k,v] in colors->items()
     if !hlexists(v[0]) || get(hlget(v[0]), 0, {})->get('cleared', false)
-        if v[1] =~# '^link to'
-          silent! execute $'hi default link {v[0]} {v[1]->substitute("link to", "", "")}'
-        else
-          const lnk = GetFgBg(v[1])
-          execute $'hi {v[0]} {x}fg={lnk.fg} {x}bg={lnk.bg} {x}=bold'
-        endif
+      if v[1] =~# '^link to'
+        silent! execute $'hi default link {v[0]} {v[1]->substitute("link to", "", "")}'
+      else
+        const lnk = GetFgBg(v[1])
+        execute $'hi {v[0]} {x}fg={lnk.fg} {x}bg={lnk.bg} {x}=bold'
       endif
+    endif
   endfor
   const nm = GetFgBg('Normal')
   const st = GetFgBg('CmdHeight0')
@@ -480,7 +480,7 @@ def EchoNextLine(winid: number, winnr: number)
         vc = strpart(expandtab, 0, ts - v % ts - 1) .. listchars.tab[2]
       endif
     else
-    execute 'echoh ' .. (synID(linenr, i, 1)->synIDattr('name') ?? 'Normal')
+      execute 'echoh ' .. (synID(linenr, i, 1)->synIDattr('name') ?? 'Normal')
     endif
     var vw = strdisplaywidth(vc)
     if width <= v + vw
