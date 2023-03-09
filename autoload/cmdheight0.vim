@@ -511,10 +511,10 @@ def EchoNextLine(winid: number, winnr: number)
     var vc = c
     if vc ==# "\t"
       echoh SpecialKey
-      if !listchars.tab[2]
-        vc = strpart(expandtab, 0, ts - v % ts)
-      else
+      if listchars.tab[2]
         vc = strpart(expandtab, 0, ts - v % ts - 1) .. listchars.tab[2]
+      else
+        vc = strpart(expandtab, 0, ts - v % ts)
       endif
     else
       execute 'echoh ' .. (synID(linenr, i, 1)->synIDattr('name') ?? 'Normal')
@@ -522,7 +522,7 @@ def EchoNextLine(winid: number, winnr: number)
     var vw = strdisplaywidth(vc)
     if width <= v + vw
       echoh SpecialKey
-      echon listchars.extends ?? printf('%.1S', c)
+      echon listchars.extends ?? printf('%.1S', vc)
       v += 1
       break
     endif
