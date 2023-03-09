@@ -154,6 +154,11 @@ def OnSizeChangedOrScrolled()
     w:cmdheight0_wsize = new_wsize
     Update()
   endif
+  # prevent flickering
+  augroup cmdheight0_invalidate
+    au!
+    au SafeState * ++once Silent(EchoStl)
+  augroup END
 enddef
 
 # Other events
