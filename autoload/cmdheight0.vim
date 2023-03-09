@@ -518,7 +518,7 @@ def EchoNextLine(winid: number, winnr: number)
         vc = strpart(expandtab, 0, ts - v % ts - 1) .. listchars.tab[2]
       endif
     else
-      execute 'echoh ' .. hi_names[i]
+      execute 'echoh ' .. get(hi_names, i, 'Error')
     endif
     var vw = strdisplaywidth(vc)
     if width <= v + vw
@@ -538,7 +538,7 @@ enddef
 var hi_names = []
 export def GetHiNames(l: number)
   hi_names = ['Normal']
-  for c in range(1, min([winwidth(0), len(getline(l))]))
+  for c in range(1, getline(l)->printf($'%+{winwidth(0)}S')->len())
     hi_names += [synID(l, c, 1)->synIDattr('name') ?? 'Normal']
   endfor
 enddef
