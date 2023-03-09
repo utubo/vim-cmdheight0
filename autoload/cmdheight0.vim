@@ -149,22 +149,17 @@ enddef
 def OnSizeChangedOrScrolled()
   const new_wsize = [winwidth(0), winheight(0)]
   if w:cmdheight0_wsize ==# new_wsize
-    EchoStl()
+    timer_start(0, EchoStl)
   else
     w:cmdheight0_wsize = new_wsize
     Update()
   endif
-  # prevent flickering
-  augroup cmdheight0_invalidate
-    au!
-    au SafeState * ++once EchoStl()
-  augroup END
 enddef
 
 # Other events
 def CursorMoved()
   if zen ==# 0 || &number || &relativenumber || g:cmdheight0.delay < 0
-    EchoStl()
+    timer_start(0, EchoStl)
   endif
 enddef
 
@@ -401,7 +396,7 @@ def Expand(fmt: string, winid: number, winnr: number, sub: string): string
   return text
 enddef
 
-def EchoStl(opt: any = { redraw: false })
+def EchoStl(timer: any = 0, opt: any = { redraw: false })
   const m = mode()[0]
   if m ==# 'c' || m ==# 'r'
     return
@@ -620,7 +615,7 @@ def Update()
   SetupStl()
   SetupColor()
   UpdateMode()
-  EchoStl({ redraw: true })
+  EchoStl(0, { redraw: true })
   redrawstatus # This flicks the screen on gvim.
 enddef
 
