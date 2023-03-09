@@ -350,18 +350,55 @@ def ExpandT(buf: number): string
   return fnamemodify(bufname(buf), ':t') .. ' [' .. ts .. ']'
 enddef
 
+def ExpandM(buf: number): string
+  return getbufvar(buf, '&modified') ? getbufvar(buf, '&modifiable') ? '[+]' : '[+-]' : ''
+enddef
+
 def Expand(fmt: string, winid: number, winnr: number, sub: string): string
   const buf = winbufnr(winnr)
-  return fmt
-    ->substitute('%\@<!%\(-*\d*\)c', (m) => printf($'%{m[1]}d', getcurpos(winid)[2]), 'g')
-    ->substitute('%\@<!%\(-*\d*\)l', (m) => printf($'%{m[1]}d', line('.', winid)), 'g')
-    ->substitute('%\@<!%\(-*\d*\)L', (m) => printf($'%{m[1]}d', line('$', winid)), 'g')
-    ->substitute('%\@<!%r', (getbufvar(buf, '&readonly') ? '[RO]' : ''), 'g')
-    ->substitute('%\@<!%m', (getbufvar(buf, '&modified') ? getbufvar(buf, '&modifiable') ? '[+]' : '[+-]' : ''), 'g')
-    ->substitute('%\@<!%|', sub, 'g')
-    ->substitute('%\@<!%t', ExpandT(buf), 'g')
-    ->substitute('%\@<!%{\([^}]*\)}', (m) => ExpandFunc(winid, buf, m[1], sub), 'g')
-    ->substitute('%%', '%', 'g')
+  var text = ''
+  var prefix = ''
+  var percent = false
+  var brace = 0
+  var expr = ''
+  for c in split(fmt, '\zs')
+    if brace
+      if c ==# '{'
+        brace += 1
+      elseif c ==# '}'
+        brace -= 1
+      endif
+      if brace ==# 0
+        text ..= ExpandFunc(winid, buf, expr, sub)
+        expr = ''
+      else
+        expr ..= c
+      endif
+    elseif percent
+      if c ==# '-' || '0' <= c && c <= '9'
+        prefix ..= c
+        continue
+      elseif c ==# '%' | text ..= '%'
+      elseif c ==# '|' | text ..= sub
+      elseif c ==# 't' | text ..= ExpandT(buf)
+      elseif c ==# 'm' | text ..= ExpandM(buf)
+      elseif c ==# 'r' | text ..= getbufvar(buf, '&readonly') ? '[RO]' : ''
+      elseif c ==# 'c' | text ..= printf($'%{prefix}d', getcurpos(winid)[2])
+      elseif c ==# 'l' | text ..= printf($'%{prefix}d', line('.', winid))
+      elseif c ==# 'L' | text ..= printf($'%{prefix}d', line('$', winid))
+      elseif c ==# '{' | brace = 1
+      else
+        text ..= '%' .. c
+      endif
+      percent = false
+    elseif c ==# '%'
+      percent = true
+      prefix = ''
+    else
+      text ..= c
+    endif
+  endfor
+  return text
 enddef
 
 def EchoStl(opt: any = { redraw: false })
