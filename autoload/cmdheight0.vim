@@ -261,7 +261,7 @@ def SubForStl(fmt: string, sub: string): string
   return fmt
     ->substitute('%\@<!%|', sub, 'g')
     ->substitute('%\@<!%{\([^}]*\)|}', (m) =>
-      '%{g:cmdheight0#ExpandFunc(0, 0, "' ..
+      '%{g:cmdheight0#ExpandBrace(0, 0, "' ..
       escape(m[1], '"') ..
       '", "' .. sub .. '")}', 'g')
 enddef
@@ -324,7 +324,7 @@ enddef
 # Echo Statusline
 # --------------------
 
-export def ExpandFunc(winid: number, buf: number, expr_: string, sub: string): string
+export def ExpandBrace(winid: number, buf: number, expr_: string, sub: string): string
   var expr = expr_->trim('|')->substitute('^[]a-zA-Z_\.[]\+$', 'g:\0', '')
   var result = cmdheight0_legacy#WinExecute(winid, $'echon {expr}')
   if !result
@@ -362,14 +362,14 @@ def Expand(fmt: string, winid: number, winnr: number, sub: string): string
   var brace = 0
   var expr = ''
   for c in split(fmt, '\zs')
-    if brace
+    if brace !=# 0
       if c ==# '{'
         brace += 1
       elseif c ==# '}'
         brace -= 1
       endif
       if brace ==# 0
-        text ..= ExpandFunc(winid, buf, expr, sub)
+        text ..= ExpandBrace(winid, buf, expr, sub)
         expr = ''
       else
         expr ..= c
