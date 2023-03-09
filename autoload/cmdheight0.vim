@@ -507,6 +507,7 @@ def EchoNextLine(winid: number, winnr: number)
   var text = NVL(getbufline(winbufnr(winnr), linenr), [''])[0]
   var i = 1
   var v = 0
+  win_execute(winid, $'call cmdheight0#GetHiNames({linenr})')
   for c in split(text, '\zs')
     var vc = c
     if vc ==# "\t"
@@ -517,7 +518,7 @@ def EchoNextLine(winid: number, winnr: number)
         vc = strpart(expandtab, 0, ts - v % ts - 1) .. listchars.tab[2]
       endif
     else
-      execute 'echoh ' .. (synID(linenr, i, 1)->synIDattr('name') ?? 'Normal')
+      execute 'echoh ' .. hi_names[i]
     endif
     var vw = strdisplaywidth(vc)
     if width <= v + vw
@@ -532,6 +533,14 @@ def EchoNextLine(winid: number, winnr: number)
   endfor
   echoh Normal
   echon repeat(' ', width - v)
+enddef
+
+var hi_names = []
+export def GetHiNames(l: number)
+  hi_names = ['Normal']
+  for c in range(1, min([winwidth(0), len(getline(l))]))
+    hi_names += [synID(l, c, 1)->synIDattr('name') ?? 'Normal']
+  endfor
 enddef
 
 def EchoStlWin(winid: number)
