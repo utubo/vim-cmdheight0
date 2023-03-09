@@ -511,10 +511,10 @@ def EchoNextLine(winid: number, winnr: number)
     var vc = c
     if vc ==# "\t"
       echoh SpecialKey
-      if listchars.tab[2]
-        vc = strpart(expandtab, 0, ts - v % ts - 1) .. listchars.tab[2]
-      else
+      if !listchars.tab[2] # string to bool
         vc = strpart(expandtab, 0, ts - v % ts)
+      else
+        vc = strpart(expandtab, 0, ts - v % ts - 1) .. listchars.tab[2]
       endif
     else
       execute 'echoh ' .. (synID(linenr, i, 1)->synIDattr('name') ?? 'Normal')
