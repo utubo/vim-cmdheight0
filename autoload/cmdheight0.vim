@@ -260,7 +260,7 @@ enddef
 # prevent trim result of expr on statusline.
 export def S(key: string): string
   const s = w:cmdheight0[key]
-  return '%' .. strlen(s) .. '(' .. s->('%') .. '%)'
+  return '%' .. strlen(s) .. '(' .. s->substitute('%', '%%', 'g') .. '%)'
 enddef
 
 def SubForStl(fmt: string, sub: string): string
