@@ -250,19 +250,17 @@ def SetupStl()
     &statusline = '%#CmdHeight0Horiz#%{cmdheight0#HorizLine()}'
     return
   endif
-  const mode   = '%#CmdHeight0_md#%{%cmdheight0#ModeForStl()%}%#CmdHeight0_mdst#%{w:cmdheight0.sep}'
-  const modeNC = '%#CmdHeight0ModeNC#%{%cmdheight0#NCForStl()%}%#CmdHeight0_ncst#%{w:cmdheight0.sepNC}'
+  const mode   = '%#CmdHeight0_md#%{%cmdheight0#S("m")%}%#CmdHeight0_mdst#%{w:cmdheight0.sep}'
+  const modeNC = '%#CmdHeight0ModeNC#%{%cmdheight0#S("mNC")%}%#CmdHeight0_ncst#%{w:cmdheight0.sepNC}'
   const tail   = '%#CmdHeight0_stnm#%{g:cmdheight0.tail}'
   const format = '%#CmdHeight0#%<' .. SubForStl(fmt_lt, sub_lt) .. '%=' .. SubForStl(fmt_rt, sub_rt)
   &statusline = $'{mode}{modeNC}{format}{tail}%#Normal# '
 enddef
 
-# prevent trim on statusline.
-export def ModeForStl(): string
-  return '%' .. strlen(w:cmdheight0.m) .. '{w:cmdheight0.m}'
-enddef
-export def NCForStl(): string
-  return '%' .. strlen(w:cmdheight0.mNC) .. '{w:cmdheight0.mNC}'
+# prevent trim result of expr on statusline.
+export def S(key: string): string
+  const s = w:cmdheight0[key]
+  return '%' .. strlen(s) .. '(' .. s->('%') .. '%)'
 enddef
 
 def SubForStl(fmt: string, sub: string): string
