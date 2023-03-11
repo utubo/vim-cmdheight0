@@ -12,6 +12,7 @@ var fmt_rt = ''
 var sub_lt = ''
 var sub_rt = ''
 var listchars = { tab: '  ', extends: '' }
+var vertchar = '|'
 
 # --------------------
 # Utils
@@ -429,9 +430,12 @@ def EchoStl(timer: any = 0, opt: any = { redraw: false })
       # vert split
       if !zen
         echon ' '
+        echoh StatusLine
+        echon ' '
+      else
+        echoh VertSplit
+        echon vertchar
       endif
-      echoh StatusLine
-      echon ' '
     endif
     EchoStlWin(winid)
     has_prev = true
@@ -458,6 +462,8 @@ def SetupZen()
     var [k, v] = split(kv, ':')
     listchars[k] = v
   endfor
+  var p = &fillchars->stridx('vert:')
+  vertchar = p !=# -1 ? &fillchars[p + 5] : '|'
 enddef
 
 def EchoNextLine(winid: number, winnr: number)
