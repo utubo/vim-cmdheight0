@@ -184,7 +184,7 @@ enddef
 const colors = {
   #       Name                    Default color
   '=':  ['CmdHeight0',            'StatusLine'],
-  n:    ['CmdHeight0Normal',      'ToolBarButton'],
+  n:    ['CmdHeight0Normal',      '!Normal'],
   v:    ['CmdHeight0Visual',      'Visual'],
   V:    ['CmdHeight0VisualLine',  'VisualNOS'],
   '^V': ['CmdHeight0VisualBlock', 'link to CmdHeight0VisualLine'],
@@ -202,10 +202,15 @@ const colors = {
 }
 
 def GetFgBg(name: string): any
-  const id = hlID(name)->synIDtrans()
+  var rv = name[0] ==# '!'
+  const nm = rv ? name[1 : ] : name
+  const id = hlID(nm)->synIDtrans()
   var fg = NVL(synIDattr(id, 'fg#'), 'NONE')
   var bg = NVL(synIDattr(id, 'bg#'), 'NONE')
   if synIDattr(id, 'reverse') ==# '1'
+    rv = !rv
+  endif
+  if rv
     return { fg: bg, bg: fg }
   else
     return { fg: fg, bg: bg }

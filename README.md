@@ -148,7 +148,7 @@ the mode colors.
 |Hilight group         |Default color                |
 |----------------------|-----------------------------|
 |CmdHeight0            |StatusLine                   |
-|CmdHeight0Normal      |ToolBarButton                |
+|CmdHeight0Normal      |Normal Reverse               |
 |CmdHeight0Visual      |Visual                       |
 |CmdHeight0VisualLine  |VisualNOS                    |
 |CmdHeight0VisualBlock |link to CmdHeight0VisualLine |
