@@ -354,7 +354,8 @@ enddef
 def ExpandT(buf: number): string
   var ts = term_getstatus(buf)
   if !ts
-    return bufname(buf)
+    const n = bufname(buf)
+    return !n ? '[No Name]' : n
   endif
   if ts ==# 'running,normal'
     ts = 'Terminal'
