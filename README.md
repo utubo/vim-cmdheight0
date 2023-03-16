@@ -91,6 +91,9 @@ none: toggle Zen mode.
   the format of statusline.
 - `mode`  
   the names of mode.
+- `exclude`  
+  the exclude bufnames.
+  default is `['ControlP']`.
 
 #### `g:cmdheight0.format`
 see `:help statusline`.

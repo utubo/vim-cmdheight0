@@ -112,6 +112,7 @@ export def Init()
     zen: 0,
     laststatus: 2,
     delay: &updatetime / 1000,
+    exclude: ['ControlP'],
   }
   g:cmdheight0->extend(override)
   w:cmdheight0 = { m: '', m_row: 'n' }
@@ -124,7 +125,7 @@ export def Init()
     au WinNew,WinClosed,TabLeave * g:cmdheight0.winupdated = 1
     au WinEnter * Silent(Update)|SaveWinSize() # for check scroll
     au WinLeave * Silent(ClearMode)|Silent(Invalidate)
-    au WinScrolled * Silent(OnSizeChangedOrScrolled)
+    au WinScrolled * silent! OnSizeChangedOrScrolled()
     au ModeChanged [^c]:* Silent(UpdateMode)|Silent(Invalidate)
     au ModeChanged c:* Silent(OverwriteEchoWithDelay)
     au TabEnter * Silent(Invalidate)
@@ -415,6 +416,9 @@ def Expand(fmt: string, winid: number, winnr: number, sub: string): string
 enddef
 
 def EchoStl(timer: any = 0, opt: any = { redraw: false })
+  if g:cmdheight0.exclude->index(bufname('%')) !=# -1
+    return
+  endif
   const m = mode()[0]
   if m ==# 'c' || m ==# 'r'
     return

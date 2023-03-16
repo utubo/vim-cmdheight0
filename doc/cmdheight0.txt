@@ -114,6 +114,9 @@ g:cmdheight0						*g:cmdheight0*
 				see g:cmdheight0.format
 		`mode`		the names of mode.
 				see g:cmdheight0.mode
+		`exclude`	list<string>.
+				the exclude bufnames.
+				default is `['ControlP']`.
 
 g:cmdheight0.format					*g:cmdheight0.format*
 	see `:help statusline` .
