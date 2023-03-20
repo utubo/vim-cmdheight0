@@ -83,17 +83,17 @@ none: toggle Zen mode.
   the list of the sub-separators as `[left, right]`.  
   default is `['|', '|']`
 - `tail_style`, `sep_style`, `sub_style`  
-  the hilight style of serpators.  
+  the highlight style of serpators.  
   default is `NONE`.
 - `horiz`  
-  the char of the horizontal line on zen mode.
+  the char of the horizontal line on zen mode.  
   default is `-`.
 - `format`  
   the format of statusline.
 - `mode`  
   the names of mode.
 - `exclude`  
-  the exclude bufnames.
+  the exclude bufnames.  
   default is `['ControlP']`.
 
 #### `g:cmdheight0.format`
@@ -149,7 +149,7 @@ g:cmdheight0.mode = {
 ### COLORS
 Base
 
-|Hilight group         |Default color                |Note                |
+|Highlight group       |Default color                |Note                |
 |----------------------|-----------------------------|--------------------|
 |CmdHeight0            |StatusLine                   |                    |
 |CmdHeightHoriz        |link to VertSpirt            |Horizontal separator|
@@ -157,7 +157,7 @@ Base
 
 the mode colors.
 
-|Hilight group         |Default color                |Note                    |
+|Highlight group       |Default color                |Note                    |
 |----------------------|-----------------------------|------------------------|
 |CmdHeight0Normal      |Normal Reverse               |                        |
 |CmdHeight0Visual      |Visual                       |                        |

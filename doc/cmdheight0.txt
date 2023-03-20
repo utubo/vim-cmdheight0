@@ -107,7 +107,7 @@ g:cmdheight0						*g:cmdheight0*
 				as [<left side>, <right side>]
 				default is ['|', '|']
 		`tail_style`, `sep_style`, `sub_style`
-				the hilight style of serpators.
+				the highlight style of serpators.
 				default is `NONE`.
 		`horiz`		the char of the horizontal line on zen mode.
 				default is `'-'`.
@@ -165,12 +165,12 @@ g:cmdheight0.mode					*g:cmdheight0.mode*
 ------------------------------------------------------------------------------
 COLORS							*cmdheight0-colors*
 	Base
-	Hilight group		Default color		Note
+	Highlight group		Default color		Note
 	CmdHeight0		StatusLine
 	CmdHeight0Horiz		link to VertSplit	Horizontal separator
 
 	The mode colors.
-	Hilight group		Default color		Note
+	Highlight group		Default color		Note
 	CmdHeight0Normal	Normal Reverse
 	CmdHeight0Visual	Visual
 	CmdHeight0VisualLine	VisualNOS
