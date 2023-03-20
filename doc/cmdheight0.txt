@@ -97,7 +97,7 @@ g:cmdheight0						*g:cmdheight0*
 		`laststatus`	number.
 				You can use this instead of `&laststatus`.
 				status line:
-					`0`: never
+					`0`: never(Zen mode)
 					`1`: only if there are at least two win.
 					`2`: always
 				default is `2`.

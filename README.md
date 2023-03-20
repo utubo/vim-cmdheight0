@@ -71,7 +71,7 @@ none: toggle Zen mode.
   number.  
   You can use this instead of `&laststatus`.  
   status line:  
-    `0`: never  
+    `0`: never(Zen mode)  
     `1`: only if there are at least two windows  
     `2`: always  
   default is `2`.
