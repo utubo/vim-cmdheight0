@@ -110,6 +110,7 @@ g:cmdheight0						*g:cmdheight0*
 				the hilight style of serpators.
 				default is `NONE`.
 		`horiz`		the char of the horizontal line on zen mode.
+				default is `'-'`.
 		`format`	the format of statusline.
 				see g:cmdheight0.format
 		`mode`		the names of mode.
@@ -166,7 +167,7 @@ COLORS							*cmdheight0-colors*
 	Base
 	Hilight group		Default color		Note
 	CmdHeight0		StatusLine
-	CmdHeight0Horiz		VertSplit		Horizontal separator
+	CmdHeight0Horiz		link to VertSplit	Horizontal separator
 
 	The mode colors.
 	Hilight group		Default color		Note
@@ -183,8 +184,8 @@ COLORS							*cmdheight0-colors*
 	CmdHeight0Prompt	Search
 	CmdHeight0Term	 	StatusLineTerm
 	CmdHeight0Shell	 	StatusLineTermNC
-	CmdHeight0ModeNC	StatusLineNC		for not-current windows.
-	CmdHeight0Other	 	link to CmdHeight0ModeNC	for unknown mode.
+	CmdHeight0ModeNC	StatusLineNC		for not-current windows
+	CmdHeight0Other	 	link to CmdHeight0ModeNC	for unknown mode
 
 
 ==============================================================================

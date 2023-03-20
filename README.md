@@ -87,6 +87,7 @@ none: toggle Zen mode.
   default is `NONE`.
 - `horiz`  
   the char of the horizontal line on zen mode.
+  default is `-`.
 - `format`  
   the format of statusline.
 - `mode`  
@@ -146,24 +147,31 @@ g:cmdheight0.mode = {
 ```
 
 ### COLORS
+Base
+
+|Hilight group         |Default color                |Note                |
+|----------------------|-----------------------------|--------------------|
+|CmdHeight0            |StatusLine                   |                    |
+|CmdHeightHoriz        |link to VertSpirt            |Horizontal separator|
+
+
 the mode colors.
 
-|Hilight group         |Default color                |
-|----------------------|-----------------------------|
-|CmdHeight0            |StatusLine                   |
-|CmdHeight0Normal      |Normal Reverse               |
-|CmdHeight0Visual      |Visual                       |
-|CmdHeight0VisualLine  |VisualNOS                    |
-|CmdHeight0VisualBlock |link to CmdHeight0VisualLine |
-|CmdHeight0Select      |DiffChange                   |
-|CmdHeight0SelectLine  |link to CmdHeight0Select     |
-|CmdHeight0SelectBlock |link to CmdHeight0Select     |
-|CmdHeight0Insert      |DiffAdd                      |
-|CmdHeight0Replace     |DiffChange                   |
-|CmdHeight0Command     |WildMenu                     |
-|CmdHeight0Prompt      |Search                       |
-|CmdHeight0Term        |StatusLineTerm               |
-|CmdHeight0Shell       |StatusLineTermNC             |
-|CmdHeight0ModeNC      |StatusLineNC for not-current windows. |
-|CmdHeight0Other       |link to CmdHeight0ModeNC for unknown mode. |
+|Hilight group         |Default color                |Note                    |
+|----------------------|-----------------------------|------------------------|
+|CmdHeight0Normal      |Normal Reverse               |                        |
+|CmdHeight0Visual      |Visual                       |                        |
+|CmdHeight0VisualLine  |VisualNOS                    |                        |
+|CmdHeight0VisualBlock |link to CmdHeight0VisualLine |                        |
+|CmdHeight0Select      |DiffChange                   |                        |
+|CmdHeight0SelectLine  |link to CmdHeight0Select     |                        |
+|CmdHeight0SelectBlock |link to CmdHeight0Select     |                        |
+|CmdHeight0Insert      |DiffAdd                      |                        |
+|CmdHeight0Replace     |DiffChange                   |                        |
+|CmdHeight0Command     |WildMenu                     |                        |
+|CmdHeight0Prompt      |Search                       |                        |
+|CmdHeight0Term        |StatusLineTerm               |                        |
+|CmdHeight0Shell       |StatusLineTermNC             |                        |
+|CmdHeight0ModeNC      |StatusLineNC                 |for not-current windows |
+|CmdHeight0Other       |link to CmdHeight0ModeNC     |for unknown mode        |
 
