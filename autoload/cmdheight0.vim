@@ -660,7 +660,7 @@ enddef
 # --------------------
 
 export def Invalidate(timer: any = 0)
-  if ! exists('g:CmdHeight0.initialized')
+  if ! exists('g:cmdheight0.initialized')
     Init()
   endif
   if ! exists('w:cmdheight0')
@@ -673,7 +673,7 @@ export def Invalidate(timer: any = 0)
 enddef
 
 export def ToggleZen(flg: number = -1)
-  if ! exists('g:CmdHeight0.initialized')
+  if ! exists('g:cmdheight0.initialized')
     Init()
   endif
   if flg ==# 1
