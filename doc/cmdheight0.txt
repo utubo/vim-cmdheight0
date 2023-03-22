@@ -46,7 +46,7 @@ USAGE							*cmdheight0-usage*
 Require
 	vim9script
 
-Install
+Installation
 
 	Example of `.vimrc`
 >

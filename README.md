@@ -17,7 +17,7 @@ also, Zen mode (emulates the next line). 🧘
 ### Require
 - vim9script
 
-### Install
+### Installation
 - Example of `.vimrc`
   ```vim
   vim9script
