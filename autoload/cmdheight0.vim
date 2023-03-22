@@ -100,7 +100,7 @@ export def Init()
       s:    ' s ', # Select
       S:    ' S ', # S-Line
       '^S': '^S ', # S-Block
-      i:    ' i ', # Insert
+      i:    ' I ', # Insert
       R:    ' R ', # Replace
       c:    ' c ', # Command
       r:    ' > ', # Prompt
