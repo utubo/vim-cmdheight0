@@ -30,6 +30,13 @@ also, Zen mode (emulates the next line). 🧘
   g:cmdheight0.sep  = "\ue0b8"
   g:cmdheight0.sub  = ["\ue0bf", "\ue0bb"]
   g:cmdheight0.tail = "\ue0b8"
+  g:cmdheight0.mode = {
+    n: ' N ', i: ' I ',
+    v: ' v ', V: ' V ', '^V': '^V ',
+    s: ' s ', S: ' S ', '^S': '^B ',
+    R: ' R ', c: ' C ', r: ' > ', t: ' # ',
+    '!': ' ! ', '*': ' ? ', 'NC': ' - ',
+  }
   nnoremap ZZ <ScriptCmd>cmdheight0#ToggleZen()<CR>
   # You can disable cmdheight0 at VimEnter
   #g:cmdheight0.at_start = 0
