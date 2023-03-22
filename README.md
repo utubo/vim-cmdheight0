@@ -30,13 +30,6 @@ also, Zen mode (emulates the next line). 🧘
   g:cmdheight0.sep  = "\ue0b8"
   g:cmdheight0.sub  = ["\ue0bf", "\ue0bb"]
   g:cmdheight0.tail = "\ue0b8"
-  g:cmdheight0.mode = {
-    n: ' N ', i: ' I ',
-    v: ' v ', V: ' V ', '^V': '^V ',
-    s: ' s ', S: ' S ', '^S': '^B ',
-    R: ' R ', c: ' C ', r: ' > ', t: ' # ',
-    '!': ' ! ', '*': ' ? ', 'NC': ' - ',
-  }
   nnoremap ZZ <ScriptCmd>cmdheight0#ToggleZen()<CR>
   # You can disable cmdheight0 at VimEnter
   #g:cmdheight0.at_start = 0
@@ -135,21 +128,21 @@ see `:help mode()`.
 ```vim
 # default
 g:cmdheight0.mode = {
-  n:    'Normal',
-  v:    'Visual',
-  V:    'V-Line',
-  '^V': 'V-Block',
-  s:    'Select',
-  S:    'S-Line',
-  '^S': 'S-Block',
-  i:    'Insert',
-  R:    'Replace',
-  c:    'Command',
-  r:    'Prompt',
-  t:    'Terminal',
-  '!':  'Shell',
-  '*':  '      ', # for unknown mode.
-  'NC': '------', # for not-current windows.
+  n:    ' N ', # Normal
+  v:    ' v ', # Visual
+  V:    ' V ', # V-Line
+  '^V': '^V ', # V-Block
+  s:    ' s ', # Select
+  S:    ' S ', # S-Line
+  '^S': '^S ', # S-Block
+  i:    ' i ', # Insert
+  R:    ' R ', # Replace
+  c:    ' c ', # Command
+  r:    ' > ', # Prompt
+  t:    ' # ', # Terminal
+  '!':  ' ! ', # Shell
+  '*':  ' ? ', # Unknown
+  'NC': ' - ', # Not current
 }
 ```
 

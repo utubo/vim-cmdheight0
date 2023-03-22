@@ -93,21 +93,21 @@ export def Init()
     sub_style: 'NONE',
     horiz: '-',
     mode: {
-      n:    'Normal',
-      v:    'Visual',
-      V:    'V-Line',
-      '^V': 'V-Block',
-      s:    'Select',
-      S:    'S-Line',
-      '^S': 'S-Block',
-      i:    'Insert',
-      R:    'Replace',
-      c:    'Command',
-      r:    'Prompt',
-      t:    'Terminal',
-      '!':  'Shell',
-      '*':  ' ',
-      'NC': '------',
+      n:    ' N ', # Normal
+      v:    ' v ', # Visual
+      V:    ' V ', # V-Line
+      '^V': '^V ', # V-Block
+      s:    ' s ', # Select
+      S:    ' S ', # S-Line
+      '^S': '^S ', # S-Block
+      i:    ' i ', # Insert
+      R:    ' R ', # Replace
+      c:    ' c ', # Command
+      r:    ' > ', # Prompt
+      t:    ' # ', # Terminal
+      '!':  ' ! ', # Shell
+      '*':  ' ? ', # Unknown
+      'NC': ' - ', # Not current
     },
     zen: 0,
     laststatus: 2,
