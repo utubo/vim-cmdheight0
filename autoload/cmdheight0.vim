@@ -84,7 +84,7 @@ enddef
 export def Init()
   const override = get(g:, 'cmdheight0', {})
   g:cmdheight0 = {
-    format: '%t %m%r %=%|%3l:%-2c ',
+    format: ' %t %m%r%=%3l:%-2c ',
     tail: '',
     tail_style: 'NONE',
     sep: '',
