@@ -660,6 +660,9 @@ enddef
 # --------------------
 
 export def Invalidate(timer: any = 0)
+  if ! exists('g:CmdHeight0.initialized')
+    Init()
+  endif
   if ! exists('w:cmdheight0')
     ClearMode()
   endif
@@ -670,9 +673,8 @@ export def Invalidate(timer: any = 0)
 enddef
 
 export def ToggleZen(flg: number = -1)
-  if get(g:cmdheight0, 'initialized', 0) !=# 1
+  if ! exists('g:CmdHeight0.initialized')
     Init()
-    return
   endif
   if flg ==# 1
     g:cmdheight0.laststaus = 0
