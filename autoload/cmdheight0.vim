@@ -237,7 +237,7 @@ def SetupColor()
         silent! execute $'hi default link {v[0]} {v[1]->substitute("link to", "", "")}'
       else
         const lnk = GetFgBg(v[1])
-        execute $'hi {v[0]} {x}fg={lnk.fg} {x}bg={lnk.bg} {x}=bold'
+        execute $'hi {v[0]} {x}fg={lnk.fg} {x}bg={lnk.bg}'
       endif
     endif
   endfor
