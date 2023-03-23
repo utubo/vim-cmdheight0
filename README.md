@@ -24,7 +24,7 @@ also, Zen mode (emulates the next line). 🧘
   ⋮
   dein# add('utubo/vim-cmdheight0')
   ⋮
-  g:cmdheight0 = get(g:, 'cmdheight0', {})
+  g:cmdheight0 = {}
   g:cmdheight0.format = '%t %m%r %=%`%3l:%-2c%`%{&ff} %{&fenc} %L'
   # require nerd fonts
   g:cmdheight0.sep  = "\ue0b8"
