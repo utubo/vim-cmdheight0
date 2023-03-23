@@ -273,8 +273,8 @@ enddef
 def SubForStl(fmt: string, sub: string): string
   return fmt
     ->substitute('%\@<!%|', sub, 'g')
-    ->substitute('%\@<!%{\([^}]*\)|}', (m) =>
-      '%{g:cmdheight0#ExpandBrace(0, 0, "' ..
+    ->substitute('%\@<!%{\([^}]*\)}', (m) =>
+      '%{g:cmdheight0#ExpandBrace(0, "' ..
       escape(m[1], '"') ..
       '", "' .. sub .. '")}', 'g')
 enddef
@@ -337,7 +337,8 @@ enddef
 # Echo Statusline
 # --------------------
 
-export def ExpandBrace(winid: number, buf: number, expr_: string, sub: string): string
+export def ExpandBrace(winid_: number, expr_: string, sub: string): string
+  const winid = winid_ ==# 0 ? win_getid() : winid_
   var expr = expr_->trim('|')->substitute('^[]a-zA-Z_\.[]\+$', 'g:\0', '')
   var result = cmdheight0_legacy#WinExecute(winid, $'echon {expr}')
   if !result
@@ -346,7 +347,7 @@ export def ExpandBrace(winid: number, buf: number, expr_: string, sub: string): 
   if expr_[0] ==# '|'
     result = sub .. result
   endif
-  if expr_[len(expr_) - 1] ==# '|'
+  if expr_[-1] ==# '|'
     result ..= sub
   endif
   return result
@@ -383,7 +384,7 @@ def Expand(fmt: string, winid: number, winnr: number, sub: string): string
         brace -= 1
       endif
       if brace ==# 0
-        text ..= ExpandBrace(winid, buf, expr, sub)
+        text ..= ExpandBrace(winid, expr, sub)
         expr = ''
       else
         expr ..= c
