@@ -505,15 +505,24 @@ def EchoNextLine(winid: number, winnr: number)
   # sign & line-number
   if textoff !=# 0
     echoh SignColumn
+    var snl = []
+    silent! snl = sign_getplaced(winbufnr(winnr), { lnum: linenr, group: '*' })[0].signs
+    if !!snl
+      const sn = sign_getdefined(snl[0].name)[0]
+      silent! execute 'echoh ' .. sn.texthl
+      echon get(sn, 'text', '  ')
+    else
+      echon '  '
+    endif
     const rnu = getwinvar(winnr, '&relativenumber')
     if getwinvar(winnr, '&number') || rnu
-      const nw = max([2, getwinvar(winnr, '&numberwidth')])
+      const nw = getwinvar(winnr, '&numberwidth')
       const linestr = printf($'%{nw - 1}d ', rnu ? abs(linenr - line('.')) : linenr)
-      echon repeat(' ', textoff - len(linestr))
+      echon repeat(' ', textoff - len(linestr) - 2)
       echoh LineNr
       echon linestr
     else
-      echon repeat(' ', textoff)
+      echon repeat(' ', textoff - 2)
     endif
   endif
   width -= textoff
