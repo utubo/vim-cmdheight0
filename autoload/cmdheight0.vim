@@ -502,8 +502,10 @@ def EchoNextLine(winid: number, winnr: number)
     return
   endif
   const textoff = getwininfo(winid)[0].textoff
+  width -= textoff
   # sign & line-number
   if textoff !=# 0
+    var w = textoff
     echoh SignColumn
     var snl = []
     silent! snl = sign_getplaced(winbufnr(winnr), { lnum: linenr, group: '*' })[0].signs
@@ -511,21 +513,19 @@ def EchoNextLine(winid: number, winnr: number)
       const sn = sign_getdefined(snl[0].name)[0]
       silent! execute 'echoh ' .. sn.texthl
       echon get(sn, 'text', '  ')
-    else
-      echon '  '
+      w -= 2
     endif
     const rnu = getwinvar(winnr, '&relativenumber')
     if getwinvar(winnr, '&number') || rnu
       const nw = getwinvar(winnr, '&numberwidth')
       const linestr = printf($'%{nw - 1}d ', rnu ? abs(linenr - line('.')) : linenr)
-      echon repeat(' ', textoff - len(linestr) - 2)
+      echon repeat(' ', w - len(linestr))
       echoh LineNr
       echon linestr
     else
-      echon repeat(' ', textoff - 2)
+      echon repeat(' ', w)
     endif
   endif
-  width -= textoff
   # folded
   if WinGetLn(winid, linenr, 'foldclosed') !=# '-1'
     echoh Folded
