@@ -142,7 +142,7 @@ g:cmdheight0.mode = {
   t:    ' # ', # Terminal
   '!':  ' ! ', # Shell
   '*':  ' ? ', # Unknown
-  'NC': ' - ', # Not current
+  'NC': ' - ', # Not-current
 }
 ```
 
@@ -151,27 +151,27 @@ Base
 
 |Highlight group       |Default color                |Note                |
 |----------------------|-----------------------------|--------------------|
-|CmdHeight0            |StatusLine                   |                    |
+|CmdHeight0            |same as StatusLine           |                    |
 |CmdHeightHoriz        |link to VertSpirt            |Horizontal separator|
 
 
 the mode colors.
 
-|Highlight group       |Default color                |Note                    |
-|----------------------|-----------------------------|------------------------|
-|CmdHeight0Normal      |Normal Reverse               |                        |
-|CmdHeight0Visual      |Visual                       |                        |
-|CmdHeight0VisualLine  |VisualNOS                    |                        |
-|CmdHeight0VisualBlock |link to CmdHeight0VisualLine |                        |
-|CmdHeight0Select      |DiffChange                   |                        |
-|CmdHeight0SelectLine  |link to CmdHeight0Select     |                        |
-|CmdHeight0SelectBlock |link to CmdHeight0Select     |                        |
-|CmdHeight0Insert      |DiffAdd                      |                        |
-|CmdHeight0Replace     |DiffChange                   |                        |
-|CmdHeight0Command     |WildMenu                     |                        |
-|CmdHeight0Prompt      |Search                       |                        |
-|CmdHeight0Term        |StatusLineTerm               |                        |
-|CmdHeight0Shell       |StatusLineTermNC             |                        |
-|CmdHeight0ModeNC      |StatusLineNC                 |for not-current windows |
-|CmdHeight0Other       |link to CmdHeight0ModeNC     |for unknown mode        |
+|Highlight group       |Default color                |Note                |
+|----------------------|-----------------------------|--------------------|
+|CmdHeight0Normal      |same as Normal Reverse       |                    |
+|CmdHeight0Visual      |same as Visual               |                    |
+|CmdHeight0VisualLine  |same as VisualNOS            |                    |
+|CmdHeight0VisualBlock |link to CmdHeight0VisualLine |                    |
+|CmdHeight0Select      |same as DiffChange           |                    |
+|CmdHeight0SelectLine  |link to CmdHeight0Select     |                    |
+|CmdHeight0SelectBlock |link to CmdHeight0Select     |                    |
+|CmdHeight0Insert      |same as DiffAdd              |                    |
+|CmdHeight0Replace     |same as DiffChange           |                    |
+|CmdHeight0Command     |same as WildMenu             |                    |
+|CmdHeight0Prompt      |same as Search               |                    |
+|CmdHeight0Term        |same as StatusLineTerm       |                    |
+|CmdHeight0Shell       |same as StatusLineTermNC     |                    |
+|CmdHeight0ModeNC      |same as StatusLineNC         |for not-current     |
+|CmdHeight0Other       |link to CmdHeight0ModeNC     |for unknown mode    |
 
