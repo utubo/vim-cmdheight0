@@ -102,7 +102,7 @@ export def Init()
       '^S': '^S ', # S-Block
       i:    ' I ', # Insert
       R:    ' R ', # Replace
-      c:    ' c ', # Command
+      c:    ' C ', # Command
       r:    ' > ', # Prompt
       t:    ' # ', # Terminal
       '!':  ' ! ', # Shell
