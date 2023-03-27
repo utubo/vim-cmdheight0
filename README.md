@@ -87,7 +87,7 @@ none: toggle Zen mode.
   default is `NONE`.
 - `horiz`  
   the char of the horizontal line on zen mode.  
-  default is `-`.
+  default is `─`.
 - `horiznr`  
   the char of the horizontal line on LineNr.  
   default is empty.

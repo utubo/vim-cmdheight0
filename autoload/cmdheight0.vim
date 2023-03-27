@@ -91,7 +91,7 @@ export def Init()
     sep_style: 'NONE',
     sub: ['|', '|'],
     sub_style: 'NONE',
-    horiz: '-',
+    horiz: '─',
     horiznr: '',
     mode: {
       n:    ' N ', # Normal

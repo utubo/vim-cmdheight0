@@ -110,7 +110,7 @@ g:cmdheight0						*g:cmdheight0*
 				the highlight style of serpators.
 				default is `NONE`.
 		`horiz`		the char of the horizontal line on zen mode.
-				default is `'-'`.
+				default is `'─'`.
 		`horiznr`	the char of the horizontal line on LineNr.
 				default is `''`.
 		`format`	the format of statusline.
