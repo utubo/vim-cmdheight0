@@ -701,8 +701,8 @@ enddef
 export def HorizLine(): string
   var s = ''
   var width = winwidth(0)
-  if !!g:cmdheight0.horiznr
-    const textoff = getwininfo()[0].textoff
+  if g:cmdheight0.horiznr !=# ''
+    const textoff = getwininfo(win_getid())[0].textoff
     const nr = printf($"%.{textoff}S", repeat(g:cmdheight0.horiznr, textoff))
     width -= strdisplaywidth(nr)
     s = '%#CmdHeight0HorizNr#' .. nr
