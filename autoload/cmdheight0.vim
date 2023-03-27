@@ -92,6 +92,7 @@ export def Init()
     sub: ['|', '|'],
     sub_style: 'NONE',
     horiz: '-',
+    horiznr: '',
     mode: {
       n:    ' N ', # Normal
       v:    ' v ', # Visual
@@ -221,6 +222,7 @@ enddef
 def SetupColor()
   if zen ==# 1
     silent! hi default link CmdHeight0Horiz VertSplit
+    silent! hi default link CmdHeight0HorizNr LineNr
     return
   endif
   const colorscheme = get(g:cmdheight0, 'colorscheme', get(g:, 'colors_name', ''))
@@ -254,7 +256,7 @@ enddef
 
 def SetupStl()
   if zen ==# 1
-    &statusline = '%#CmdHeight0Horiz#%{cmdheight0#HorizLine()}'
+    &statusline = '%{%cmdheight0#HorizLine()%}'
     return
   endif
   const mode   = '%#CmdHeight0_md#%{%cmdheight0#S("m")%}%#CmdHeight0_mdst#%{w:cmdheight0.sep}'
@@ -697,7 +699,16 @@ export def ToggleZen(flg: number = -1)
 enddef
 
 export def HorizLine(): string
-  const width = winwidth(0)
-  return printf($"%.{width}S", repeat(g:cmdheight0.horiz, width))
+  var s = ''
+  var width = winwidth(0)
+  if !!g:cmdheight0.horiznr
+    const textoff = getwininfo()[0].textoff
+    const nr = printf($"%.{textoff}S", repeat(g:cmdheight0.horiznr, textoff))
+    width -= strdisplaywidth(nr)
+    s = '%#CmdHeight0HorizNr#' .. nr
+  endif
+  s ..= '%#CmdHeight0Horiz#'
+  s ..= printf($"%.{width}S", repeat(g:cmdheight0.horiz, width))
+  return s
 enddef
 

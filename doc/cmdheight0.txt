@@ -111,6 +111,8 @@ g:cmdheight0						*g:cmdheight0*
 				default is `NONE`.
 		`horiz`		the char of the horizontal line on zen mode.
 				default is `'-'`.
+		`horiznr`	the char of the horizontal line on LineNr.
+				default is `''`.
 		`format`	the format of statusline.
 				see g:cmdheight0.format
 		`mode`		the names of mode.
@@ -168,6 +170,8 @@ COLORS							*cmdheight0-colors*
 	Highlight group		Default color		Note
 	CmdHeight0		same as StatusLine
 	CmdHeight0Horiz		link to VertSplit	Horizontal separator
+	CmdHeight0HorizNr	link to LineNr		Horizontal separator
+							on LineNr column
 
 	The mode colors.
 	Highlight group		Default color		Note

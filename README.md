@@ -88,6 +88,9 @@ none: toggle Zen mode.
 - `horiz`  
   the char of the horizontal line on zen mode.  
   default is `-`.
+- `horiznr`  
+  the char of the horizontal line on LineNr.  
+  default is empty.
 - `format`  
   the format of statusline.
 - `mode`  
@@ -153,7 +156,7 @@ Base
 |----------------------|-----------------------------|--------------------|
 |CmdHeight0            |same as StatusLine           |                    |
 |CmdHeightHoriz        |link to VertSpirt            |Horizontal separator|
-
+|CmdHeight0HorizNr     |link to LineNr               |Horizontal separator on LineNr column|
 
 the mode colors.
 
