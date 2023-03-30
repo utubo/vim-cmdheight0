@@ -112,6 +112,9 @@ L N   Number of lines in buffer.
 c N   Column number (byte index).
 { NF  Evaluate expression between '%{' and '}' and substitute result.
 = -   Separation point between left and right aligned items.
+# -   Set highlight group.
+* -   Set highlight group to User{N}.
+      Restore normal highlight with %* or %0*.
 ```
 
 Specials for vim-cmdheight0
@@ -153,28 +156,31 @@ g:cmdheight0.mode = {
 Base
 
 |Highlight group       |Default color                |Note                |
-|----------------------|-----------------------------|--------------------|
-|CmdHeight0            |same as StatusLine           |                    |
-|CmdHeightHoriz        |link to VertSpirt            |Horizontal separator|
-|CmdHeight0HorizNr     |link to LineNr               |Horizontal separator on LineNr column|
+|----------------------|------------------------------|--------------------|
+|CmdHeight0            |same as StatusLine            |                    |
+|CmdHeightHoriz        |link to VertSpirt             |Horizontal separator|
+|CmdHeight0HorizNr     |link to LineNr                |Horizontal separator on LineNr column|
+|CmdHeight0Info        |same foreground as Title      |                    |
+|CmdHeight0Warn        |same foreground as WarningMsg |                    |
+|CmdHeight0Error       |same foreground as ErrorMsg   |                    |
 
 the mode colors.
 
-|Highlight group       |Default color                |Note                |
-|----------------------|-----------------------------|--------------------|
-|CmdHeight0Normal      |same as Normal Reverse       |                    |
-|CmdHeight0Visual      |same as Visual               |                    |
-|CmdHeight0VisualLine  |same as VisualNOS            |                    |
-|CmdHeight0VisualBlock |link to CmdHeight0VisualLine |                    |
-|CmdHeight0Select      |same as DiffChange           |                    |
-|CmdHeight0SelectLine  |link to CmdHeight0Select     |                    |
-|CmdHeight0SelectBlock |link to CmdHeight0Select     |                    |
-|CmdHeight0Insert      |same as DiffAdd              |                    |
-|CmdHeight0Replace     |same as DiffChange           |                    |
-|CmdHeight0Command     |same as WildMenu             |                    |
-|CmdHeight0Prompt      |same as Search               |                    |
-|CmdHeight0Term        |same as StatusLineTerm       |                    |
-|CmdHeight0Shell       |same as StatusLineTermNC     |                    |
-|CmdHeight0ModeNC      |same as StatusLineNC         |for not-current     |
-|CmdHeight0Other       |link to CmdHeight0ModeNC     |for unknown mode    |
+|Highlight group       |Default color                 |Note                |
+|----------------------|------------------------------|--------------------|
+|CmdHeight0Normal      |same as Normal Reverse        |                    |
+|CmdHeight0Visual      |same as Visual                |                    |
+|CmdHeight0VisualLine  |same as VisualNOS             |                    |
+|CmdHeight0VisualBlock |link to CmdHeight0VisualLine  |                    |
+|CmdHeight0Select      |same as DiffChange            |                    |
+|CmdHeight0SelectLine  |link to CmdHeight0Select      |                    |
+|CmdHeight0SelectBlock |link to CmdHeight0Select      |                    |
+|CmdHeight0Insert      |same as DiffAdd               |                    |
+|CmdHeight0Replace     |same as DiffChange            |                    |
+|CmdHeight0Command     |same as WildMenu              |                    |
+|CmdHeight0Prompt      |same as Search                |                    |
+|CmdHeight0Term        |same as StatusLineTerm        |                    |
+|CmdHeight0Shell       |same as StatusLineTermNC      |                    |
+|CmdHeight0ModeNC      |same as StatusLineNC          |for not-current     |
+|CmdHeight0Other       |link to CmdHeight0ModeNC      |for unknown mode    |
 

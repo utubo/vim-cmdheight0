@@ -62,19 +62,34 @@ def NVL(v: any, default: any): any
   return empty(v) ? default : v
 enddef
 
-def Truncate(s: string, vc: number): string
-  if vc <= 0
-    return ''
+def Truncate(text_hl: list<any>, width: number): list<any>
+  if width <= 0
+    return []
+  elseif width ==# 1
+    return ['<', '']
   endif
-  if strdisplaywidth(s) <= vc
-    return s
-  endif
-  if vc ==# 1
-    return '<'
-  endif
-  const a = s->split('.\zs')->reverse()->join('')
-  const b = '<' .. printf($'%.{vc - 1}S', a)->split('.\zs')->reverse()->join('')
-  return printf($'%.{vc}S', b)
+  var ret = []
+  var w = width - 1
+  for a in text_hl->reverse()
+    const ww = strdisplaywidth(a[0])
+    if ww <= w
+      ret->insert(a)
+      w -= ww
+    else
+      ret->insert([printf($'%.{w}S', a[0])->split('.\zs')->reverse()->join(''), a[1]])
+      ret->insert(['<', ''])
+      return ret
+    endif
+  endfor
+  return ret
+enddef
+
+def GetWidth(text_hl: list<any>): number
+  var s = ''
+  for a in text_hl
+    s ..= a[0]
+  endfor
+  return strdisplaywidth(s)
 enddef
 
 # --------------------
@@ -248,6 +263,12 @@ def SetupColor()
   const nc = GetFgBg('CmdHeight0ModeNC')
   execute $'hi! CmdHeight0_stnm {x}fg={st.bg} {x}bg={nm.bg} {x}={g:cmdheight0.tail_style}'
   execute $'hi! CmdHeight0_ncst {x}fg={nc.bg} {x}bg={st.bg} {x}={g:cmdheight0.sep_style}'
+  const title = GetFgBg('Title')
+  const warn = GetFgBg('WarningMsg')
+  const error = GetFgBg('ErrorMsg')
+  execute $'hi! CmdHeight0Info {x}fg={title.fg} {x}bg={st.bg}'
+  execute $'hi! CmdHeight0Warn {x}fg={warn.fg} {x}bg={st.bg}'
+  execute $'hi! CmdHeight0Error {x}fg={error.fg} {x}bg={st.bg}'
 enddef
 
 # --------------------
@@ -371,15 +392,29 @@ def ExpandM(buf: number): string
   return getbufvar(buf, '&modified') ? getbufvar(buf, '&modifiable') ? '[+]' : '[+-]' : ''
 enddef
 
-def Expand(fmt: string, winid: number, winnr: number, sub: string): string
+def Expand(fmt: string, winid: number, winnr: number, sub: string): list<any>
   const buf = winbufnr(winnr)
+  var text_hl = []
   var text = ''
   var prefix = ''
   var percent = false
   var brace = 0
   var expr = ''
+  var sharp = false
+  var hl = ''
+  var hl_back = ''
   for c in split(fmt, '\zs')
-    if brace !=# 0
+    if sharp
+      if c ==# '#'
+        text_hl->add([text, hl_back])
+        hl_back = hl
+        hl = ''
+        text = ''
+        sharp = false
+      else
+        hl ..= c
+      endif
+    elseif brace !=# 0
       if c ==# '{'
         brace += 1
       elseif c ==# '}'
@@ -404,6 +439,11 @@ def Expand(fmt: string, winid: number, winnr: number, sub: string): string
       elseif c ==# 'l' | text ..= printf($'%{prefix}d', line('.', winid))
       elseif c ==# 'L' | text ..= printf($'%{prefix}d', line('$', winid))
       elseif c ==# '{' | brace = 1
+      elseif c ==# '#' | sharp = true
+      elseif c ==# '*'
+        text_hl->add([text, hl_back])
+        text = ''
+        hl_back = prefix ==# '' || prefix ==# '0' ? 'CmdHeight0' : $'User{prefix}'
       else
         text ..= '%' .. c
       endif
@@ -415,7 +455,8 @@ def Expand(fmt: string, winid: number, winnr: number, sub: string): string
       text ..= c
     endif
   endfor
-  return text
+  text_hl->add([text, hl_back])
+  return text_hl
 enddef
 
 def EchoStl(timer: any = 0, opt: any = { redraw: false })
@@ -627,15 +668,20 @@ def EchoStlWin(winid: number)
   right = Truncate(right, maxright)
 
   # Left
-  var maxleft = max([0, maxright - strdisplaywidth(right)])
+  var maxleft = max([0, maxright - GetWidth(right)])
   left = Truncate(left, maxleft)
 
   # Middle spaces
-  left = printf($'%-{maxleft}S', left)
+  left->add([repeat(' ', maxleft - GetWidth(left)), ''])
 
   # Echo content
   echoh CmdHeight0
-  echon left .. right
+  for text_hl in left + right
+    if text_hl[1] !=# ''
+      execute 'echoh ' .. text_hl[1]
+    endif
+    echon text_hl[0]
+  endfor
 
   # Echo tail
   echoh CmdHeight0_stnm

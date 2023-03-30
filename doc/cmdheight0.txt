@@ -133,6 +133,9 @@ g:cmdheight0.format					*g:cmdheight0.format*
 	c N   Column number (byte index).
 	{ NF  Evaluate expression between '%{' and '}' and substitute result.
 	= -   Separation point between left and right aligned items.
+	# -   Set highlight group.
+	* -   Set highlight group to User{N}.
+	      Restore normal highlight with %* or %0*.
 
 	Specials for vim-cmdheight0
 	| -   Sub-separator
@@ -172,6 +175,9 @@ COLORS							*cmdheight0-colors*
 	CmdHeight0Horiz		link to VertSplit	Horizontal separator
 	CmdHeight0HorizNr	link to LineNr		Horizontal separator
 							on LineNr column
+	CmdHeight0Info		same foreground as Title
+	CmdHeight0Warn		same foreground as WarningMsg
+	CmdHeight0Error		same foreground as ErrorMsg
 
 	The mode colors.
 	Highlight group		Default color		Note
