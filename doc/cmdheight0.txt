@@ -43,7 +43,7 @@ https://github.com/utubo/vim-cmdheight0
 ==============================================================================
 USAGE							*cmdheight0-usage*
 
-Require
+Requirements
 	vim9script
 
 Installation
