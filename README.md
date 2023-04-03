@@ -14,7 +14,7 @@ also, Zen mode (emulates the next line). 🧘
 <img width="600" src="https://user-images.githubusercontent.com/6848636/190131844-dd95d5d4-0f18-44c1-a50b-35bddec8e1c6.png">
 
 ## USAGE
-### Require
+### Requirements
 - vim9script
 
 ### Installation
