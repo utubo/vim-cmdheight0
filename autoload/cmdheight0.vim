@@ -4,8 +4,9 @@ vim9script
 # Global variables
 # --------------------
 
-# never statusline
+# Zenmode
 var zen = 0
+
 # cache strings
 var fmt_lt = ''
 var fmt_rt = ''
@@ -13,6 +14,9 @@ var sub_lt = ''
 var sub_rt = ''
 var listchars = { tab: '  ', extends: '' }
 var vertchar = '|'
+
+# Constants
+const max_nest = 5
 
 # --------------------
 # Utils
@@ -297,9 +301,10 @@ def SubForStl(fmt: string, sub: string): string
   return fmt
     ->substitute('%\@<!%|', sub, 'g')
     ->substitute('%\@<!%{\([^}]*\)}', (m) =>
-      '%{g:cmdheight0#ExpandBrace(0, "' ..
-      escape(m[1], '"') ..
-      '", "' .. sub .. '")}', 'g')
+      escape(m[1], '"')
+        ->substitute('^\(%*\)', '%{\1g:cmdheight0#ExpandBrace(0, "', '')
+        ->substitute('\(%*\)$', '", "' .. sub .. '")\1}', ''),
+      'g')
 enddef
 
 # --------------------
@@ -392,7 +397,10 @@ def ExpandM(buf: number): string
   return getbufvar(buf, '&modified') ? getbufvar(buf, '&modifiable') ? '[+]' : '[+-]' : ''
 enddef
 
-def Expand(fmt: string, winid: number, winnr: number, sub: string): list<any>
+def Expand(fmt: string, winid: number, winnr: number, sub: string, nest: number = 0): list<any>
+  if fmt ==# '' || fmt ==# '|' || max_nest < nest
+    return []
+  endif
   const buf = winbufnr(winnr)
   var text_hl = []
   var text = ''
@@ -421,7 +429,18 @@ def Expand(fmt: string, winid: number, winnr: number, sub: string): list<any>
         brace -= 1
       endif
       if brace ==# 0
-        text ..= ExpandBrace(winid, expr, sub)
+        if expr[0] ==# '%' && expr[-1] ==# '%'
+          text_hl->add([text, hl_back])
+          const nested = ExpandBrace(winid, expr[1 : -2], sub)
+          const t_h = Expand(nested, winid, winnr, sub, nest)
+          if !!t_h
+            text_hl += t_h
+            hl_back = t_h[-1][1]
+          endif
+          text = ''
+        else
+          text ..= ExpandBrace(winid, expr, sub)
+        endif
         expr = ''
       else
         expr ..= c

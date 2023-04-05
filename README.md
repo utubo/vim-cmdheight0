@@ -111,6 +111,9 @@ l N   Line number.
 L N   Number of lines in buffer.
 c N   Column number (byte index).
 { NF  Evaluate expression between '%{' and '}' and substitute result.
+{% -  This is almost same as { except the result of the expression is
+      re-evaluated as a statusline format string.
+      the end of expression is denoted by %}.
 = -   Separation point between left and right aligned items.
 # -   Set highlight group.
 * -   Set highlight group to User{N}.
@@ -122,9 +125,9 @@ Specials for vim-cmdheight0
 | -   Sub-separator
 ```
 
-`%{expr|}` Append the sub-separator when expr is not empty.
+`%{expr|}` and `%{%expr|%}` Append the sub-separator when expr is not empty.
 
-`%{expr}` Evalute expr with legacy vimscript. (not vim9script)  
+`%{expr}` and `%{%expr%}` Evalute expr with legacy vimscript. (not vim9script)  
 The global variables need `g:`.
 
 
