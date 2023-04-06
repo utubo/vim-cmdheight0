@@ -394,7 +394,14 @@ def ExpandT(buf: number): string
 enddef
 
 def ExpandM(buf: number): string
-  return getbufvar(buf, '&modified') ? getbufvar(buf, '&modifiable') ? '[+]' : '[+-]' : ''
+  var m = ''
+  if getbufvar(buf, '&modified')
+    m = '+'
+  endif
+  if !getbufvar(buf, '&modifiable')
+    m ..= '-'
+  endif
+  return !m ? '' : '[' .. m .. ']'
 enddef
 
 def Expand(fmt: string, winid: number, winnr: number, sub: string, nest: number = 0): list<any>
