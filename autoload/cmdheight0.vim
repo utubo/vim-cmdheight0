@@ -305,6 +305,7 @@ def SubForStl(fmt: string, sub: string): string
         ->substitute('^\(%*\)', '%{\1g:cmdheight0#ExpandBrace(0, "', '')
         ->substitute('\(%*\)$', '", "' .. sub .. '")\1}', ''),
       'g')
+    ->substitute('%0\?\*', '%#CmdHeight0#', 'g')
 enddef
 
 # --------------------
