@@ -155,6 +155,10 @@ g:cmdheight0.mode = {
 }
 ```
 
+#### `g:cmdheight0.lasterror`
+
+The last error in vim-cmdheight0.
+
 ### COLORS
 Base
 
