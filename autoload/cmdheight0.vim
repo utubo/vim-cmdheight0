@@ -601,6 +601,7 @@ def EchoNextLine(winid: number, winnr: number)
   if WinGetLn(winid, linenr, 'foldclosed') !=# '-1'
     echoh Folded
     echon printf($'%.{width}S', WinGetLn(winid, linenr, 'foldtextresult'))->printf($'%-{width}S')
+    echoh Normal
     return
   endif
   # tab
