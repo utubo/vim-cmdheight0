@@ -77,7 +77,8 @@ cmdheight0#ToggleZen([{enable}])			*cmdheight0#ToggleZen*
 	{enable} is number.
 		`0`: disable Zen mode
 		`1`: enable Zen mode
-		none: toggle Zen mode
+		`-1`: toggle Zen mode
+		default is `-1`
 
 ------------------------------------------------------------------------------
 VARIABLES						*cmdheight0-variables*

@@ -49,7 +49,8 @@ Zen echos the next line instead of statusline.
 `enable` is number.  
 `0`: disable Zen mode  
 `1`: enable Zen mode.  
-none: toggle Zen mode.
+`-1`: toggle Zen mode.  
+default is `-1`.
 
 ### VARIABLES
 #### `g:cmdheight0`
@@ -59,7 +60,7 @@ none: toggle Zen mode.
   number.  
   `0`: disable cmdheight0 at VimEnter.  
   `1`: enable cmdheight0 at VimEnter.  
-  `default` is `1`.  
+  default is `1`.  
 - `delay`  
   number.  
   seconds of show statusline when return from Command-mode.  
