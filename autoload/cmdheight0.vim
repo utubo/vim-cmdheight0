@@ -152,6 +152,7 @@ export def Init()
     au OptionSet fileencoding,readonly,modifiable,number,relativenumber,signcolumn Silent(Invalidate)
     au CursorMoved,CursorMovedI * Silent(CursorMoved)
     au CompleteChanged * Silent(CompleteChanged)
+    au CompleteDone * Silent(PumChkDelay)
   augroup END
   # prevent to echo search word
   if maparg('n', 'n')->empty()
@@ -192,18 +193,17 @@ def CursorMoved()
 enddef
 
 # prevent blink stl when the pum blinks with <BS>.
-const PUM_INTERVAL = 100
+const PUM_DELAY = 100
 var pumvisible_delay = false
 def CompleteChanged()
   pumvisible_delay = true
-  timer_start(PUM_INTERVAL, CheckPum)
 enddef
-# (`CompleteDone` event does not work well.)
-def CheckPum(timer: any = 0)
+def PumChkDelay()
+  timer_start(PUM_DELAY, PumChk)
+enddef
+def PumChk(timer: any = 0)
   pumvisible_delay = pumvisible()
-  if pumvisible_delay
-    timer_start(PUM_INTERVAL, CheckPum)
-  else
+  if !pumvisible_delay
     EchoStl()
   endif
 enddef
@@ -517,6 +517,8 @@ def EchoStl(timer: any = 0, opt: any = { redraw: false })
     g:cmdheight0.winupdated = 0
   endif
   if pumvisible_delay
+    # `CompleteDone` event does not work well.
+    PumChkDelay()
     return
   endif
 
