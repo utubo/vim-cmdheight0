@@ -1,13 +1,13 @@
 vim9script
 
-# --------------------
-# Global variables
-# --------------------
+# ----------------------
+# Script local variables
+# ----------------------
 
 # Zenmode
 var zen = 0
 
-# cache strings
+# Cache strings
 var fmt_lt = ''
 var fmt_rt = ''
 var sub_lt = ''
@@ -15,12 +15,16 @@ var sub_rt = ''
 var listchars = { tab: '  ', extends: '' }
 var vertchar = '|'
 
-# Constants
-const max_nest = 5
+# Others
+var pumvisible_delay = false
 
-# --------------------
+# Constants
+const MAX_NEST = 5
+const PUM_DELAY = 100
+
+# ----------------------
 # Utils
-# --------------------
+# ----------------------
 
 # silent with echo
 def Silent(F: func)
@@ -96,9 +100,9 @@ def GetWidth(text_hl: list<any>): number
   return strdisplaywidth(s)
 enddef
 
-# --------------------
+# ----------------------
 # Setup
-# --------------------
+# ----------------------
 
 export def Init()
   const override = get(g:, 'cmdheight0', {})
@@ -193,8 +197,6 @@ def CursorMoved()
 enddef
 
 # prevent blink stl when the pum blinks with <BS>.
-const PUM_DELAY = 100
-var pumvisible_delay = false
 def CompleteChanged()
   pumvisible_delay = true
 enddef
@@ -216,9 +218,9 @@ def OverwriteEchoWithDelay()
   endif
 enddef
 
-# --------------------
+# ----------------------
 # Color
-# --------------------
+# ----------------------
 
 const colors = {
   #       Name                    Default color
@@ -293,9 +295,9 @@ def SetupColor()
   execute $'hi! CmdHeight0Error {x}fg={error.fg} {x}bg={st.bg}'
 enddef
 
-# --------------------
+# ----------------------
 # Statusline
-# --------------------
+# ----------------------
 
 def SetupStl()
   if zen ==# 1
@@ -326,9 +328,9 @@ def SubForStl(fmt: string, sub: string): string
     ->substitute('%0\?\*', '%#CmdHeight0#', 'g')
 enddef
 
-# --------------------
+# ----------------------
 # Mode
-# --------------------
+# ----------------------
 
 def GetMode(): string
   var m = mode()[0]
@@ -380,9 +382,9 @@ def UpdateMode()
 enddef
 
 
-# --------------------
+# ----------------------
 # Echo Statusline
-# --------------------
+# ----------------------
 
 export def ExpandBrace(winid_: number, expr_: string, sub: string): string
   const winid = winid_ ==# 0 ? win_getid() : winid_
@@ -424,7 +426,7 @@ def ExpandM(buf: number): string
 enddef
 
 def Expand(fmt: string, winid: number, winnr: number, sub: string, nest: number = 0): list<any>
-  if fmt ==# '' || fmt ==# '|' || max_nest < nest
+  if fmt ==# '' || fmt ==# '|' || MAX_NEST < nest
     return []
   endif
   const buf = winbufnr(winnr)
@@ -764,9 +766,9 @@ def Update()
   redrawstatus # This flicks the screen on gvim.
 enddef
 
-# --------------------
+# ----------------------
 # API
-# --------------------
+# ----------------------
 
 export def Invalidate(timer: any = 0)
   if ! exists('g:cmdheight0.initialized')
