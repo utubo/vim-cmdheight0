@@ -150,7 +150,8 @@ export def Init()
     au ModeChanged c:* Silent(UpdateMode)|Silent(OverwriteEchoWithDelay)
     au TabEnter * Silent(Invalidate)
     au OptionSet fileencoding,readonly,modifiable,number,relativenumber,signcolumn Silent(Invalidate)
-    au CursorMoved * Silent(CursorMoved)
+    au CursorMoved,CursorMovedI * Silent(CursorMoved)
+    au CompleteChanged * Silent(CompleteChanged)
   augroup END
   # prevent to echo search word
   if maparg('n', 'n')->empty()
@@ -187,6 +188,23 @@ enddef
 def CursorMoved()
   if zen ==# 0 || &number || &relativenumber || g:cmdheight0.delay < 0
     timer_start(0, EchoStl)
+  endif
+enddef
+
+# prevent blink stl when the pum blinks with <BS>.
+const PUM_INTERVAL = 100
+var pumvisible_delay = false
+def CompleteChanged()
+  pumvisible_delay = true
+  timer_start(PUM_INTERVAL, CheckPum)
+enddef
+# (`CompleteDone` event does not work well.)
+def CheckPum(timer: any = 0)
+  pumvisible_delay = pumvisible()
+  if pumvisible_delay
+    timer_start(PUM_INTERVAL, CheckPum)
+  else
+    EchoStl()
   endif
 enddef
 
@@ -497,6 +515,9 @@ def EchoStl(timer: any = 0, opt: any = { redraw: false })
   if g:cmdheight0.winupdated ==# 1
     UpdateBottomWinIds()
     g:cmdheight0.winupdated = 0
+  endif
+  if pumvisible_delay
+    return
   endif
 
   if opt.redraw
