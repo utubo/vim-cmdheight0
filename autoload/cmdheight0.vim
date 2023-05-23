@@ -614,7 +614,7 @@ def EchoNextLine(winid: number, winnr: number)
     const rnu = getwinvar(winnr, '&relativenumber')
     if getwinvar(winnr, '&number') || rnu
       const nw = getwinvar(winnr, '&numberwidth')
-      const linestr = printf($'%{nw - 1}d ', rnu ? abs(linenr - line('.')) : linenr)
+      const linestr = printf($'%{nw - 1}d ', rnu ? abs(linenr - line('.', winid)) : linenr)
       echon repeat(' ', w - len(linestr))
       echoh LineNr
       echon linestr
