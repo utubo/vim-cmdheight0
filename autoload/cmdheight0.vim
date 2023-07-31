@@ -177,9 +177,7 @@ enddef
 def OnSizeChangedOrScrolled()
   const new_wsize = [winwidth(0), winheight(0)]
   if w:cmdheight0_wsize ==# new_wsize
-    if bottomWinIds->index(win_getid()) !=# -1
-      timer_start(0, EchoStl)
-    endif
+    timer_start(0, EchoStl)
   else
     w:cmdheight0_wsize = new_wsize
     Update()
