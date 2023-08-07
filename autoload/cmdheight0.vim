@@ -26,11 +26,12 @@ const PUM_DELAY = 100
 # Utils
 # ----------------------
 
-# silent with echo
-def Silent(F: func)
+# Detach cmdheight0 when catch exepction.
+def Fuse(F: func)
   try
     F()
   catch
+    # fuse blows
     augroup cmdheight0
       au!
     augroup END
@@ -145,18 +146,18 @@ export def Init()
   set laststatus=0
   augroup cmdheight0
     au!
-    au ColorScheme * Silent(Invalidate)
+    au ColorScheme * Fuse(Invalidate)
     au WinNew,WinClosed,TabLeave * g:cmdheight0.winupdated = 1
-    au WinEnter * Silent(Update)|SaveWinSize() # for check scroll
-    au WinLeave * Silent(ClearMode)|Silent(Invalidate)
+    au WinEnter * Fuse(Update)|SaveWinSize() # for check scroll
+    au WinLeave * Fuse(ClearMode)|Fuse(Invalidate)
     au WinScrolled * silent! OnSizeChangedOrScrolled()
-    au ModeChanged [^c]:* Silent(UpdateMode)|Silent(Invalidate)
-    au ModeChanged c:* Silent(UpdateMode)|Silent(OverwriteEchoWithDelay)
-    au TabEnter * Silent(Invalidate)
-    au OptionSet fileencoding,readonly,modifiable,number,relativenumber,signcolumn Silent(Invalidate)
-    au CursorMoved,CursorMovedI * Silent(CursorMoved)
-    au CompleteChanged * Silent(CompleteChanged)
-    au CompleteDone * Silent(PumChkDelay)
+    au ModeChanged [^c]:* Fuse(UpdateMode)|Fuse(Invalidate)
+    au ModeChanged c:* Fuse(UpdateMode)|Fuse(OverwriteEchoWithDelay)
+    au TabEnter * Fuse(Invalidate)
+    au OptionSet fileencoding,readonly,modifiable,number,relativenumber,signcolumn Fuse(Invalidate)
+    au CursorMoved,CursorMovedI * Fuse(CursorMoved)
+    au CompleteChanged * Fuse(CompleteChanged)
+    au CompleteDone * Fuse(PumChkDelay)
   augroup END
   # prevent to echo search word
   if maparg('n', 'n')->empty()
@@ -185,7 +186,7 @@ def OnSizeChangedOrScrolled()
   # prevent flickering
   augroup cmdheight0_invalidate
     au!
-    au SafeState * ++once Silent(EchoStl)
+    au SafeState * ++once Fuse(EchoStl)
   augroup END
 enddef
 
@@ -779,7 +780,7 @@ export def Invalidate(timer: any = 0)
   endif
   augroup cmdheight0_invalidate
     au!
-    au SafeState * ++once Silent(Update)
+    au SafeState * ++once Fuse(Update)
   augroup END
 enddef
 
