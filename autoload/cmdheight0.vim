@@ -508,9 +508,15 @@ def Expand(fmt: string, winid: number, winnr: number, sub: string, nest: number 
 enddef
 
 def EchoStl(timer: any = 0, opt: any = { redraw: false })
-  if g:cmdheight0.exclude->index(bufname('%')) !=# -1
-    return
-  endif
+  for e in g:cmdheight0.exclude
+    if type(e) ==# type('str')
+      if bufname('%') ==# e
+        return
+      endif
+    elseif function(e)()
+      return
+    endif
+  endfor
   const m = mode()[0]
   if m ==# 'c' || m ==# 'r'
     return

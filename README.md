@@ -97,7 +97,8 @@ default is `-1`.
 - `mode`  
   the names of mode.
 - `exclude`  
-  the exclude bufnames.  
+  the exclude bufnames or funcref.  
+  Funcref returns true to prevent cmdHeight0.
   default is `['ControlP']`.
 
 #### `g:cmdheight0.format`
