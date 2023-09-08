@@ -116,7 +116,7 @@ g:cmdheight0						*g:cmdheight0*
 				default is `''`.
 		`statusline`	the format of statusline.
 				see g:cmdheight0.statusline
-		`format`	*deplicated* same `statusline`.
+		`format`	Deprecated! same `statusline`.
 		`mode`		the names of mode.
 				see g:cmdheight0.mode
 		`exclude`	list<string or Funcref>.
