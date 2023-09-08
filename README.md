@@ -25,7 +25,7 @@ also, Zen mode (emulates the next line). 🧘
   dein# add('utubo/vim-cmdheight0')
   ⋮
   g:cmdheight0 = {}
-  g:cmdheight0.format = '%t %m %=%`%3l:%-2c%`%{&ff} %{&fenc} %L'
+  g:cmdheight0.statusline = '%t %m %=%`%3l:%-2c%`%{&ff} %{&fenc} %L'
   # require nerd fonts
   g:cmdheight0.sep  = "\ue0b8"
   g:cmdheight0.sub  = ["\ue0bf", "\ue0bb"]
@@ -92,7 +92,7 @@ default is `-1`.
 - `horiznr`  
   the char of the horizontal line on LineNr.  
   default is empty.
-- `format`  
+- `statusline`  
   the format of statusline.
 - `mode`  
   the names of mode.
@@ -101,7 +101,7 @@ default is `-1`.
   Funcref returns true to prevent cmdHeight0.
   default is `['ControlP']`.
 
-#### `g:cmdheight0.format`
+#### `g:cmdheight0.statusline`
 see `:help statusline`.
 cmdheight0 supports these only.
 

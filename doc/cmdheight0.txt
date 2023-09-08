@@ -55,7 +55,7 @@ Installation
 		dein#add('utubo/vim-cmdheight0')
 		⋮
 		g:cmdheight0 = {}
-		g:cmdheight0.format = '%t %m %=%|%3l:%-2c%|%{&ff} %{&fenc} %L'
+		g:cmdheight0.statusline = '%t %m %=%|%3l:%-2c%|%{&ff} %{&fenc} %L'
 		# require nerd fonts
 		g:cmdheight0.sep  = "\ue0b8"
 		g:cmdheight0.sub  = ["\ue0bf", "\ue0bb"]
@@ -114,8 +114,9 @@ g:cmdheight0						*g:cmdheight0*
 				default is `'─'`.
 		`horiznr`	the char of the horizontal line on LineNr.
 				default is `''`.
-		`format`	the format of statusline.
-				see g:cmdheight0.format
+		`statusline`	the format of statusline.
+				see g:cmdheight0.statusline
+		`format`	*deplicated* same `statusline`.
 		`mode`		the names of mode.
 				see g:cmdheight0.mode
 		`exclude`	list<string or Funcref>.
@@ -125,7 +126,7 @@ g:cmdheight0						*g:cmdheight0*
 				Example (exclude all):
 					`g:cmdheight0.exclude->add(() => true)`
 
-g:cmdheight0.format					*g:cmdheight0.format*
+g:cmdheight0.statusline				*g:cmdheight0.statusline*
 	see `:help statusline` .
 	cmdheight0 supports these only.
 

@@ -108,7 +108,7 @@ enddef
 export def Init()
   const override = get(g:, 'cmdheight0', {})
   g:cmdheight0 = {
-    format: ' %t %m%=%3l:%-2c ',
+    statusline: ' %t %m%=%3l:%-2c ',
     tail: '',
     tail_style: 'NONE',
     sep: '',
@@ -140,6 +140,10 @@ export def Init()
     exclude: ['ControlP'],
   }
   g:cmdheight0->extend(override)
+  # for old version.
+  if g:cmdheight0->has_key('format')
+    g:cmdheight0.statusline = g:cmdheight0.format
+  endif
   w:cmdheight0 = { m: '', m_row: 'n' }
   set noruler
   set noshowcmd
@@ -308,8 +312,8 @@ def SetupStl()
   const mode   = '%#CmdHeight0_md#%{%cmdheight0#S("m")%}%#CmdHeight0_mdst#%{w:cmdheight0.sep}'
   const modeNC = '%#CmdHeight0ModeNC#%{%cmdheight0#S("mNC")%}%#CmdHeight0_ncst#%{w:cmdheight0.sepNC}'
   const tail   = '%#CmdHeight0_stnm#%{g:cmdheight0.tail}'
-  const format = '%#CmdHeight0#%<' .. SubForStl(fmt_lt, sub_lt) .. '%=' .. SubForStl(fmt_rt, sub_rt)
-  &statusline = $'{mode}{modeNC}{format}{tail}%#Normal# '
+  const stl    = '%#CmdHeight0#%<' .. SubForStl(fmt_lt, sub_lt) .. '%=' .. SubForStl(fmt_rt, sub_rt)
+  &statusline = $'{mode}{modeNC}{stl}{tail}%#Normal# '
 enddef
 
 # prevent trim result of expr on statusline.
@@ -769,7 +773,7 @@ def Update()
   else
     [sub_lt, sub_rt] = g:cmdheight0.sub
   endif
-  const lt_rt = g:cmdheight0.format->split('%=')
+  const lt_rt = g:cmdheight0.statusline->split('%=')
   fmt_lt = lt_rt[0]
   fmt_rt = get(lt_rt, 1, '')
   SaveWinSize()
