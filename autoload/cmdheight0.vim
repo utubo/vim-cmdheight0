@@ -692,6 +692,10 @@ enddef
 
 def EchoStlWin(winid: number)
   const winnr = win_id2win(winid)
+  const ch0 = getwinvar(winnr, 'cmdheight0', { miss: 1 })
+  if ch0->has_key('miss')
+    return
+  endif
   const ww = winwidth(winnr)
   if ww <= 1
     return
