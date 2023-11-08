@@ -85,7 +85,7 @@ def Truncate(text_hl: list<any>, width: number): list<any>
       ret->insert(a)
       w -= ww
     else
-      ret->insert([printf($'%.{w}S', a[0])->split('.\zs')->reverse()->join(''), a[1]])
+      ret->insert([printf($'%.{w}S', a[0]->reverse())->split('.\zs')->reverse()->join(''), a[1]])
       ret->insert(['<', ''])
       return ret
     endif
