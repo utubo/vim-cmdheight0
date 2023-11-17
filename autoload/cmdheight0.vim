@@ -804,6 +804,7 @@ export def Invalidate(timer: any = 0)
     au!
     au SafeState * ++once Fuse(Update)
   augroup END
+  redrawstatus!
 enddef
 
 export def ToggleZen(flg: number = -1)
