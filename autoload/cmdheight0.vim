@@ -390,6 +390,7 @@ def UpdateMode()
   if m ==# 't'
     nnoremap <buffer> <script> <silent> a :call cmdheight0#Invalidate()<CR>a
     nnoremap <buffer> <script> <silent> i :call cmdheight0#Invalidate()<CR>i
+    redraw
   endif
 enddef
 
