@@ -318,6 +318,7 @@ enddef
 
 # prevent trim result of expr on statusline.
 export def S(key: string): string
+  UseWinVal()
   const s = w:cmdheight0[key]
   return '%' .. strlen(s) .. '(' .. s->substitute('%', '%%', 'g') .. '%)'
 enddef
@@ -347,6 +348,12 @@ def GetMode(): string
     return '*'
   else
     return m
+  endif
+enddef
+
+def UseWinVal()
+  if ! exists('w:cmdheight0')
+    ClearMode()
   endif
 enddef
 
@@ -708,6 +715,7 @@ def EchoStlWin(winid: number)
   endif
 
   # Echo Mode
+  UseWinVal()
   var mode_name = winnr() ==# winnr ? w:cmdheight0.m : g:cmdheight0.mode.NC
   const minwidth = strdisplaywidth(
     mode_name ..
