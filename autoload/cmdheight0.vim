@@ -115,8 +115,8 @@ export def Init()
     sep_style: 'NONE',
     sub: ['|', '|'],
     sub_style: 'NONE',
-    horiz: '─',
-    horiznr: '',
+    horiz: ' ',
+    horiznr: ' ',
     mode: {
       n:    ' N ', # Normal
       v:    ' v ', # Visual
@@ -264,9 +264,12 @@ def GetFgBg(name: string): any
 enddef
 
 def SetupColor()
+  const x = has('gui') ? 'gui' : 'cterm'
   if zen ==# 1
-    silent! hi default link CmdHeight0Horiz VertSplit
-    silent! hi default link CmdHeight0HorizNr LineNr
+    execute $'hi CmdHeight0Horiz {x}=strikethrough'
+    const n = GetFgBg('Normal')
+    const l = GetFgBg('LineNr')
+    execute $'hi CmdHeight0HorizNr {x}=strikethrough {x}fg={n.fg} {x}bg={l.bg}'
     return
   endif
   const colorscheme = get(g:cmdheight0, 'colorscheme', get(g:, 'colors_name', ''))
@@ -276,7 +279,6 @@ def SetupColor()
       source colorscheme_vim
     endif
   endif
-  const x = has('gui') ? 'gui' : 'cterm'
   for [k,v] in colors->items()
     if !hlexists(v[0]) || get(hlget(v[0]), 0, {})->get('cleared', false)
       if v[1] =~# '^link to'

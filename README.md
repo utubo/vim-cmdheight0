@@ -88,10 +88,10 @@ default is `-1`.
   default is `NONE`.
 - `horiz`  
   the char of the horizontal line on zen mode.  
-  default is `─`.
+  default is ` `.
 - `horiznr`  
   the char of the horizontal line on LineNr.  
-  default is empty.
+  default is ` `.
 - `statusline`  
   the format of statusline.
 - `mode`  
@@ -167,8 +167,8 @@ Base
 |Highlight group       |Default color                |Note                |
 |----------------------|------------------------------|--------------------|
 |CmdHeight0            |same as StatusLine            |                    |
-|CmdHeightHoriz        |link to VertSpirt             |Horizontal separator|
-|CmdHeight0HorizNr     |link to LineNr                |Horizontal separator on LineNr column|
+|CmdHeightHoriz        |strikethrough Normal          |Horizontal separator|
+|CmdHeight0HorizNr     |strikethrough LineNr          |Horizontal separator on LineNr column|
 |CmdHeight0Info        |same foreground as Title      |                    |
 |CmdHeight0Warn        |same foreground as WarningMsg |                    |
 |CmdHeight0Error       |same foreground as ErrorMsg   |                    |
