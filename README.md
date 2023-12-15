@@ -167,8 +167,8 @@ Base
 |Highlight group       |Default color                |Note                |
 |----------------------|------------------------------|--------------------|
 |CmdHeight0            |same as StatusLine            |                    |
-|CmdHeightHoriz        |strikethrough Normal          |Horizontal separator|
-|CmdHeight0HorizNr     |strikethrough LineNr          |Horizontal separator on LineNr column|
+|CmdHeightHoriz        |strikethrough NonText         |Horizontal separator|
+|CmdHeight0HorizNr     |strikethrough fg=NonText, bg=LineNr |Horizontal separator on LineNr column|
 |CmdHeight0Info        |same foreground as Title      |                    |
 |CmdHeight0Warn        |same foreground as WarningMsg |                    |
 |CmdHeight0Error       |same foreground as ErrorMsg   |                    |

@@ -266,8 +266,8 @@ enddef
 def SetupColor()
   const x = has('gui') ? 'gui' : 'cterm'
   if zen ==# 1
-    execute $'hi CmdHeight0Horiz {x}=strikethrough'
-    const n = GetFgBg('Normal')
+    const n = GetFgBg('NonText')
+    execute $'hi CmdHeight0Horiz {x}=strikethrough {x}fg={n.fg}'
     const l = GetFgBg('LineNr')
     execute $'hi CmdHeight0HorizNr {x}=strikethrough {x}fg={n.fg} {x}bg={l.bg}'
     return
