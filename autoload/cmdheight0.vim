@@ -818,16 +818,16 @@ export def Invalidate(timer: any = 0)
   redrawstatus!
 enddef
 
-export def ToggleZen(flg: number = -1)
+export def ToggleZen(flg: any = -1)
   if ! exists('g:cmdheight0.initialized')
     Init()
   endif
-  if flg ==# 1
-    g:cmdheight0.laststaus = 0
-  elseif flg ==# 0
+  if type(flg) ==# v:t_number && flg ==# -1
+    g:cmdheight0.laststatus = g:cmdheight0.laststatus ==# 0 ? 2 : 0
+  elseif !flg
     g:cmdheight0.laststatus = 2
   else
-    g:cmdheight0.laststatus = g:cmdheight0.laststatus ==# 0 ? 2 : 0
+    g:cmdheight0.laststaus = 0
   endif
   Update()
 enddef
