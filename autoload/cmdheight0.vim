@@ -117,6 +117,7 @@ export def Init()
     sub_style: 'NONE',
     horiz: ' ',
     horiznr: ' ',
+    only_buttom: false,
     mode: {
       n:    ' N ', # Normal
       v:    ' v ', # Visual
@@ -307,7 +308,7 @@ enddef
 # ----------------------
 
 def SetupStl()
-  if zen ==# 1
+  if zen ==# 1 || g:cmdheight0.only_bottom
     &statusline = '%{%cmdheight0#HorizLine()%}'
     return
   endif

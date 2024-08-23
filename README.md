@@ -76,6 +76,9 @@ default is `-1`.
     `1`: only if there are at least two windows  
     `2`: always  
   default is `2`.
+- `only_bottom`  
+  boolean.  
+  Show the statusline bottom only.
 - `tail`  
   the char of right of statusline.
 - `sep`  
