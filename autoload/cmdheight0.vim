@@ -151,15 +151,15 @@ export def Init()
   set laststatus=0
   augroup cmdheight0
     au!
-    au ColorScheme * Fuse(Invalidate)
+    au ColorScheme * Fuse(SafeInvalidate)
     au WinNew,WinClosed,TabLeave * g:cmdheight0.winupdated = 1
     au WinEnter * Fuse(Update)|SaveWinSize() # for check scroll
-    au WinLeave * Fuse(ClearMode)|Fuse(Invalidate)
+    au WinLeave * Fuse(ClearMode)|Fuse(SafeInvalidate)
     au WinScrolled * silent! OnSizeChangedOrScrolled()
-    au ModeChanged [^c]:* Fuse(UpdateMode)|Fuse(Invalidate)
+    au ModeChanged [^c]:* Fuse(UpdateMode)|Fuse(SafeInvalidate)
     au ModeChanged c:* Fuse(UpdateMode)|Fuse(OverwriteEchoWithDelay)
-    au TabEnter * Fuse(Invalidate)
-    au OptionSet fileencoding,readonly,modifiable,number,relativenumber,signcolumn,wrap,fcs Fuse(Invalidate)
+    au TabEnter * Fuse(SafeInvalidate)
+    au OptionSet fileencoding,readonly,modifiable,number,relativenumber,signcolumn,wrap,fcs Fuse(SafeInvalidate)
     au CursorMoved,CursorMovedI * Fuse(CursorMoved)
     au CompleteChanged * Fuse(CompleteChanged)
     au CompleteDone * Fuse(PumChkDelay)
@@ -218,9 +218,9 @@ enddef
 
 def OverwriteEchoWithDelay()
   if g:cmdheight0.delay ==# 0
-    Invalidate()
+    SafeInvalidate()
   elseif g:cmdheight0.delay > 0
-    timer_start(g:cmdheight0.delay, 'cmdheight0#Invalidate')
+    timer_start(g:cmdheight0.delay, 'cmdheight0#SafeInvalidate')
   endif
 enddef
 
@@ -391,8 +391,8 @@ def UpdateMode()
 
   # for Terminal
   if m ==# 't'
-    nnoremap <buffer> <script> <silent> a :call cmdheight0#Invalidate()<CR>a
-    nnoremap <buffer> <script> <silent> i :call cmdheight0#Invalidate()<CR>i
+    nnoremap <buffer> <script> <silent> a :call cmdheight0#SafeInvalidate()<CR>a
+    nnoremap <buffer> <script> <silent> i :call cmdheight0#SafeInvalidate()<CR>i
     redraw
   endif
 enddef
@@ -777,7 +777,7 @@ def EchoStlWin(winid: number)
   echoh Normal
 enddef
 
-def Update()
+export def Update()
   if get(g:cmdheight0, 'initialized', 0) ==# 0
     Init()
     return
@@ -801,22 +801,31 @@ def Update()
   redrawstatus # This flicks the screen on gvim.
 enddef
 
+export def SafeInvalidate(timer: any = 0)
+  Invalidate(true)
+enddef
+
 # ----------------------
 # API
 # ----------------------
 
-export def Invalidate(timer: any = 0)
+export def Invalidate(is_safe: bool = false)
   if ! exists('g:cmdheight0.initialized')
     Init()
   endif
   if ! exists('w:cmdheight0')
     ClearMode()
   endif
-  augroup cmdheight0_invalidate
-    au!
-    au SafeState * ++once Fuse(Update)
-  augroup END
-  redrawstatus!
+  if is_safe
+    augroup cmdheight0_invalidate
+      au!
+      au SafeState * ++once Fuse(Update)
+      au SafeState * ++once redrawstatus!
+    augroup END
+  else
+    Fuse(Update)
+    redrawstatus!
+  endif
 enddef
 
 export def ToggleZen(flg: any = -1)
