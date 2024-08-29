@@ -139,6 +139,7 @@ export def Init()
     laststatus: 2,
     delay: &updatetime / 1000,
     exclude: ['ControlP'],
+    enabled: true,
   }
   g:cmdheight0->extend(override)
   # for old version.
@@ -523,6 +524,9 @@ def Expand(fmt: string, winid: number, winnr: number, sub: string, nest: number 
 enddef
 
 def EchoStl(timer: any = 0, opt: any = { redraw: false })
+  if !g:cmdheight0.enabled
+    return
+  endif
   for e in g:cmdheight0.exclude
     if type(e) ==# type('str')
       if bufname('%') ==# e
@@ -780,6 +784,9 @@ enddef
 export def Update()
   if get(g:cmdheight0, 'initialized', 0) ==# 0
     Init()
+    return
+  endif
+  if !g:cmdheight0.enabled
     return
   endif
   g:cmdheight0.winupdated = 1
