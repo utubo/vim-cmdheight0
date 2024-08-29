@@ -117,7 +117,7 @@ export def Init()
     sub_style: 'NONE',
     horiz: ' ',
     horiznr: ' ',
-    only_buttom: false,
+    only_bottom: false,
     mode: {
       n:    ' N ', # Normal
       v:    ' v ', # Visual
