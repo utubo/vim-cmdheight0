@@ -1,4 +1,4 @@
-*cmdheight0.txt*
+*cmdheight0.txt*	Emulate cmdheight=0
 
 Author  : utubo
 License : MIT license  {{{
@@ -34,7 +34,7 @@ INTERFACE			|cmdheight0-interface|
 ==============================================================================
 INTRODUCTION						*cmdheight0-introduction*
 
-*cmdheight0* is a Vim plugin emulate statusline with `echo`.
+*cmdheight0* is a Vim plugin emulate `cmdheight=0`` with `echo`.
 
 Latest version:
 https://github.com/utubo/vim-cmdheight0
