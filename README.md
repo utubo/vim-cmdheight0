@@ -1,7 +1,7 @@
 # vim-cmdheight0
 
 ⚠ THIS HAS MANY BUGS !  
-📜 Powered by vim9script
+📜 Powered by Vim9 script
 
 ## INTRODUCTION
 cmdheight0 is a Vim plugin emulates statusline with `echo`.  
@@ -15,7 +15,7 @@ also, Zen mode (emulates the next line). 🧘
 
 ## USAGE
 ### Requirements
-- vim9script
+- Vim9 script
 
 ### Installation
 - Example of `.vimrc`
@@ -132,7 +132,7 @@ Specials for vim-cmdheight0
 
 `%{expr|}` and `%{%expr|%}` Append the sub-separator when expr is not empty.
 
-`%{expr}` and `%{%expr%}` Evalute expr with legacy vimscript. (not vim9script)  
+`%{expr}` and `%{%expr%}` Evalute expr with legacy Vim script. (not Vim9 script)  
 The global variables need `g:`.
 
 

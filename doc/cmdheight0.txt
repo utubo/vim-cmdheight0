@@ -44,7 +44,7 @@ https://github.com/utubo/vim-cmdheight0
 USAGE							*cmdheight0-usage*
 
 Requirements
-	vim9script
+	Vim9 script
 
 Installation
 
@@ -151,7 +151,7 @@ g:cmdheight0.statusline				*g:cmdheight0.statusline*
 	| -   Sub-separator
 
 	`%{expr|}` and `%{%expr|%} `Append the sub-separator when expr is not empty.
-	`%{expr}`and `%{%expr%}` Evalute expr with legacy vimscript. (not vim9script)
+	`%{expr}`and `%{%expr%}` Evalute expr with legacy Vim script. (not Vim9 script)
 	The global variables need `g:`.
 
 g:cmdheight0.mode					*g:cmdheight0.mode*
